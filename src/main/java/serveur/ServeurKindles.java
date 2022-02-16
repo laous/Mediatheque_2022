@@ -26,7 +26,7 @@ import java.util.logging.Logger;
  * communicartions avec les kindles sans interompre les taches de gestion 
  * qui seront relisees par l'admin
  */
-public class ServeurKindels extends Thread {
+public class ServeurKindles extends Thread {
    
     
   public void run(){
@@ -42,7 +42,7 @@ public class ServeurKindels extends Thread {
 
          } 
      catch (IOException ex) {
-               Logger.getLogger(ServeurKindels.class.getName()).log(Level.SEVERE, null, ex);
+               Logger.getLogger(ServeurKindles.class.getName()).log(Level.SEVERE, null, ex);
            }
   }
       
@@ -79,13 +79,13 @@ public class ServeurKindels extends Thread {
             * une fois que l'adherent est deconnecté alors return 
         **/
         } catch (IOException ex) {
-            Logger.getLogger(ServeurKindels.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServeurKindles.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 streamOut.close();
                 streamIn.close();
             } catch (IOException ex) {
-                Logger.getLogger(ServeurKindels.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ServeurKindles.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
             

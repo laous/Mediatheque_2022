@@ -9,7 +9,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.sql.*;
 import java.util.LinkedList;
-import model.Kindel;
+import model.Kindle;
 import model.Livre;
 import model.Roman;
 
@@ -17,19 +17,19 @@ import model.Roman;
  *
  * @author rachad
  */
-public class KindelUtile {
+public class KindleUtile {
     
     private Connection con;
     
-    public KindelUtile() throws SQLException{
+    public KindleUtile() throws SQLException{
             
         con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mediatheque ","root","2020-2021");
     }
     
     
-    public Kindel getKindelByMac(String mac) throws SQLException {
-        String table="kindel";
-        Kindel k= null;
+    public Kindle getKindleByMac(String mac) throws SQLException {
+        String table="kindle";
+        Kindle k= null;
 
 
         Statement stmt = con.createStatement();
@@ -37,16 +37,16 @@ public class KindelUtile {
 
 
         while (rs.next()) {
-            k = new Kindel(rs.getString("code_kindel") , rs.getString("mac"));
+            k = new Kindle(rs.getString("code_kindle") , rs.getString("mac"));
 
         }
         return k;
     }
     
-    public Kindel getKindelByCode(String code) throws SQLException {
+    public Kindle getKindleByCode(String code) throws SQLException {
 
-        String table="kindel";
-        Kindel k= null;
+        String table="kindle";
+        Kindle k= null;
 
 
         Statement stmt = con.createStatement();
@@ -54,23 +54,23 @@ public class KindelUtile {
 
 
         while (rs.next()) {
-            k = new Kindel(rs.getString("code_kindel") , rs.getString("mac"));
+            k = new Kindle(rs.getString("code_kindle") , rs.getString("mac"));
 
         }
         return k;
     }
     
-    public LinkedList<Kindel> getAllKindels(){
+    public LinkedList<Kindle> getAllKindles(){
 
 
          return null;
     }
     
-    public boolean ajouterKindel(Kindel k){
+    public boolean ajouterKindle(Kindle k){
          return true;
     }
    
-    public boolean supprimerKindel(Kindel k){
+    public boolean supprimerKindle(Kindle k){
          return true;
     }
     
