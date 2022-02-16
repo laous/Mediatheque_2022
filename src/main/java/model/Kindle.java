@@ -9,12 +9,12 @@ package model;
  *
  * @author rachad
  */
-public class Kindel {
+public class Kindle {
     private String code_kindle;
     private String mac;
     private boolean emprunte;
 
-    public Kindel(String code_kindle, String mac) {
+    public Kindle(String code_kindle, String mac) {
         this.code_kindle = code_kindle;
         this.mac = mac;
         emprunte=false;

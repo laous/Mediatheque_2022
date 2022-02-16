@@ -15,7 +15,7 @@ public class Emprunt {
     
     private String code_abonne;
     private String code_kindle;
-    private Date date_amprunt;
+    private Date date_emprunt;
     
 
     public Emprunt(String code_abonne, String code_kindle) {
@@ -31,8 +31,8 @@ public class Emprunt {
         return code_kindle;
     }
 
-    public Date getDate_amprunt() {
-        return date_amprunt;
+    public Date getDate_emprunt() {
+        return date_emprunt;
     }
     
     

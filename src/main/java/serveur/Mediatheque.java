@@ -4,7 +4,7 @@ package serveur;
 import dao.AdherentUtile;
 import dao.DocumentUtile;
 import dao.EmpruntUtile;
-import dao.KindelUtile;
+import dao.KindleUtile;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashSet;
@@ -27,7 +27,7 @@ public class Mediatheque {
     // a remplacer par les utiles 
      DocumentUtile documentDAO;
      AdherentUtile adherentDAO;
-     KindelUtile kindelDAO;
+     KindleUtile kindleDAO;
      EmpruntUtile empruntDAO;
     
     
@@ -35,29 +35,29 @@ public class Mediatheque {
         
           documentDAO= new DocumentUtile() ;
           adherentDAO= new AdherentUtile();
-          kindelDAO= new KindelUtile();
+          kindleDAO= new KindleUtile();
           empruntDAO= new EmpruntUtile();
     }
     
     
     //CRUD Kindles
     
-    private void ajouterKindle(Kindel k){
-        kindelDAO.ajouterKindel(k);
+    private void ajouterKindle(Kindle k){
+        kindleDAO.ajouterKindle(k);
     }
     
   
     
-     private void supprimerKindle(Kindel k){
-            kindelDAO.supprimerKindel(k);
+     private void supprimerKindle(Kindle k){
+            kindleDAO.supprimerKindle(k);
     }
     
-     boolean Emprunter(Kindel k, Abonne A){
+     boolean Emprunter(Kindle k, Abonne A) throws SQLException {
         
         if (!k.isEmprunte()){
             Emprunt e= new Emprunt(A.getCode_abonne(),k.getCode_kindle());
             k.setEmprunte(true);
-            boolean emprunte=empruntDAO.ajouterEmprunt();// la methode ajouterEmprunt() doit verifier si l'adherent n'a pas deja un autre emprunt en cours
+            boolean emprunte=empruntDAO.ajouterEmprunt(e);// la methode ajouterEmprunt() doit verifier si l'adherent n'a pas deja un autre emprunt en cours
             return emprunte;
         }
       
@@ -65,7 +65,7 @@ public class Mediatheque {
         
     }
     
-    boolean rendre(Kindel k, Abonne a){
+    boolean rendre(Kindle k, Abonne a){
         if (k.isEmprunte() && empruntExiste(k,a)){
             k.setEmprunte(false);
             return true;
@@ -74,7 +74,7 @@ public class Mediatheque {
             return false;
     }
 
-    private boolean empruntExiste(Kindel k, Abonne a) {
+    private boolean empruntExiste(Kindle k, Abonne a) {
     // return true s'il y a un emprunt recent realise par l'abonne a avec le kindle k 
     return false;
     }
@@ -83,16 +83,17 @@ public class Mediatheque {
     public static void main(String args[]) throws IOException{
         
         //Authentification  ==> BD
-        //Demarage en background du serveur de communication avec les Kindels ==> Sockets+Threds 
-        ServeurKindels sk= new ServeurKindels();
+
+        //Demarage en background du serveur de communication avec les Kindles ==> Sockets+Threds
+        ServeurKindles sk= new ServeurKindles();
         sk.start();
         //Affichage du menu CRUD ==> BD
-        //***1- Gestion des Kindels
+        //***1- Gestion des Kindles
         //***2- Gestion des Documents
         //***3- Gestion des Adherents
         //***4- Gestion des Emprunts
-        //***5- suspondre les kindels temporairement  ==>sk.sleep(xx)
-        //***6- Reprendre le serveur des kindels  ==> sk.interrupt() // a ne pas afficher si les serveur  est deja demarre
+        //***5- suspondre les kindles temporairement  ==>sk.sleep(xx)
+        //***6- Reprendre le serveur des kindles  ==> sk.interrupt() // a ne pas afficher si les serveur  est deja demarre
         //***5- Se Deconnecter
         
         
