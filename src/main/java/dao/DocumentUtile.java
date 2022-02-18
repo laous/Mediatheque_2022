@@ -242,14 +242,15 @@ public class DocumentUtile <T extends Document> {
    
     boolean supprimerDocument(T d) throws SQLException {
         Statement stmt = con.createStatement();
-        String query="";
+        String doc="";
 
         if (d instanceof Livre){
-            query=" ";
+            doc="livre";
         }
         else  if (d instanceof Roman){
-            query=" ";
+            doc="livre";
         }
+        String query="DELETE FROM "+doc+" where isbn like "+d.getIsbn();
 
         int nbUpdated = stmt.executeUpdate(query);
         return nbUpdated>0;

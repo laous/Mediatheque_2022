@@ -48,7 +48,7 @@ public class Mediatheque {
     
   
     
-     private void supprimerKindle(Kindle k){
+     private void supprimerKindle(Kindle k) throws SQLException {
             kindleDAO.supprimerKindle(k);
     }
     
