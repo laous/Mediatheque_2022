@@ -50,7 +50,7 @@ public class KindleUtile {
 
 
         Statement stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery("select * from"+ table+" where code like '"+code+"' ");
+        ResultSet rs = stmt.executeQuery("select * from kindle where code like '"+code+"' ");
 
 
         while (rs.next()) {
@@ -60,18 +60,30 @@ public class KindleUtile {
         return k;
     }
     
-    public LinkedList<Kindle> getAllKindles(){
+    public LinkedList<Kindle> getAllKindles() throws SQLException {
+        LinkedList<Kindle> kindles = new LinkedList<>();
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery("select * from kindle");
+
+        while(rs.next()){
+            kindles.add(new Kindle(rs.getString("code") ,rs.getString("mac")));
+        }
 
 
-         return null;
+
+         return kindles;
     }
     
     public boolean ajouterKindle(Kindle k){
          return true;
     }
    
-    public boolean supprimerKindle(Kindle k){
-         return true;
+    public boolean supprimerKindle(Kindle k) throws SQLException {
+        Statement stmt = con.createStatement();
+        String query="DELETE FROM kindle where code like "+k.getCode_kindle();
+
+        int nbUpdated = stmt.executeUpdate(query);
+        return nbUpdated>0;
     }
     
 }

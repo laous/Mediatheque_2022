@@ -17,10 +17,10 @@ import java.util.LinkedList;
  * @author rachad
  */
 public class EmpruntUtile {
-    private Connection con;
+    private final Connection con;
 
 
-    public  EmpruntUtile () throws SQLException {
+    public  EmpruntUtile() throws SQLException {
 
         con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mediatheque ","root","2020-2021");
 
@@ -48,11 +48,30 @@ public class EmpruntUtile {
         return ep;
     }
 
-    public LinkedList<Emprunt> getEmpruntsByAbonne(Abonne ab){
-        return new LinkedList<Emprunt>();
+    public LinkedList<Emprunt> getEmpruntsByAbonne(Abonne ab) throws SQLException {
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery("select * from emprunt where code_kindle like "+ ab.getCode_abonne());
+
+        LinkedList<Emprunt> emprunts= new LinkedList<>();
+
+        while (rs.next()) {
+            Emprunt ep= new Emprunt(rs.getString("code_abonne") ,rs.getString("code_kindle"));
+            emprunts.add(ep);
+        }
+        return emprunts;
     }
-    public LinkedList<Emprunt> getEmpruntsByKindle(Kindle kd){
-        return new LinkedList<Emprunt>();
+    public LinkedList<Emprunt> getEmpruntsByKindle(Kindle kd) throws SQLException {
+
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery("select * from emprunt where code_kindle like "+ kd.getCode_kindle());
+
+        LinkedList<Emprunt> emprunts= new LinkedList<>();
+
+        while (rs.next()) {
+            Emprunt ep= new Emprunt(rs.getString("code_abonne") ,rs.getString("code_kindle"));
+            emprunts.add(ep);
+        }
+        return emprunts;
     }
     public LinkedList<Emprunt> getAllEmprunts() throws SQLException {
 
