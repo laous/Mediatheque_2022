@@ -11,6 +11,4 @@ package dao;
  */
 public class AdherentUtile {
 
-
-    
 }

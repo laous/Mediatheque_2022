@@ -65,8 +65,8 @@ public class Mediatheque {
         
     }
     
-    boolean rendre(Kindle k, Abonne a){
-        if (k.isEmprunte() && empruntExiste(k,a)){
+    boolean rendre(Kindle k, Abonne a) throws SQLException {
+        if (k.isEmprunte() && empruntExiste(a,k)){
             k.setEmprunte(false);
             return true;
         }
@@ -74,9 +74,9 @@ public class Mediatheque {
             return false;
     }
 
-    private boolean empruntExiste(Kindle k, Abonne a) {
+    private boolean empruntExiste(Abonne a , Kindle k) throws SQLException {
     // return true s'il y a un emprunt recent realise par l'abonne a avec le kindle k 
-    return false;
+    return empruntDAO.getEmprunt(a,k) != null;
     }
     
     
@@ -92,7 +92,7 @@ public class Mediatheque {
         //***2- Gestion des Documents
         //***3- Gestion des Adherents
         //***4- Gestion des Emprunts
-        //***5- suspondre les kindles temporairement  ==>sk.sleep(xx)
+        //***5- m les kindles temporairement  ==>sk.sleep(xx)
         //***6- Reprendre le serveur des kindles  ==> sk.interrupt() // a ne pas afficher si les serveur  est deja demarre
         //***5- Se Deconnecter
         
