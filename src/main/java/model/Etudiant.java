@@ -12,10 +12,14 @@ package model;
 public class Etudiant extends Abonne {
     
     private String cne;
-    
-    public Etudiant(String nom, String prenom, String cin, String cne) {
-        super(nom, prenom, cin);
+
+    public Etudiant(String username, String password, String nom, String prenom, String cin, String cne) {
+        super(username, password, nom, prenom, cin);
         this.cne= new String(cne);
+    }
+
+    public String getCne() {
+        return cne;
     }
     
 }
