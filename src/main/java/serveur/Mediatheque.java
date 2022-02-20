@@ -45,17 +45,15 @@ public class Mediatheque {
     private void ajouterKindle(Kindle k){
         kindleDAO.ajouterKindle(k);
     }
-    
-  
-    
+
      private void supprimerKindle(Kindle k) throws SQLException {
             kindleDAO.supprimerKindle(k);
     }
     
-     boolean Emprunter(Kindle k, Abonne A) throws SQLException {
+     boolean emprunter(Kindle k, Abonne a) throws SQLException {
         
         if (!k.isEmprunte()){
-            Emprunt e= new Emprunt(A.getCode_abonne(),k.getCode_kindle());
+            Emprunt e= new Emprunt(a.getCode_abonne(),k.getCode_kindle());
             k.setEmprunte(true);
             boolean emprunte=empruntDAO.ajouterEmprunt(e);// la methode ajouterEmprunt() doit verifier si l'adherent n'a pas deja un autre emprunt en cours
             return emprunte;
@@ -78,6 +76,17 @@ public class Mediatheque {
     // return true s'il y a un emprunt recent realise par l'abonne a avec le kindle k 
     return empruntDAO.getEmprunt(a,k) != null;
     }
+
+    private boolean getAdherent(Abonne ab){return false;}
+    private LinkedList<Emprunt> getEmpruntByAdherent(){return null;}
+    boolean ajouterAdherent(){return false;}
+    boolean supprimerAdherent(){return false;}
+    boolean ajouterDocuement(){return false;}
+    boolean supprimerDocument(){return false;}
+
+
+
+
     
     
     public static void main(String args[]) throws IOException{

@@ -34,8 +34,12 @@ public class EmpruntUtile {
         return  nbUpdated>0;
     }
 
-    public boolean supprimerEmprunt(Emprunt ep){
-        return false;
+    public boolean supprimerEmprunt(Emprunt ep) throws SQLException {
+        Statement stmt = con.createStatement();
+        String query="DELETE FROM emprunt where code_kindle like "+ep.getCode_kindle();
+
+        int nbUpdated = stmt.executeUpdate(query);
+        return nbUpdated>0;
     }
     public Emprunt getEmprunt(Abonne ab , Kindle kd) throws SQLException {
         Emprunt ep=null;
