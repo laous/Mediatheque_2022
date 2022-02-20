@@ -23,8 +23,8 @@ public abstract class Abonne extends User {
         // generer un code avec random
       return null;
     }
-    public Abonne(String nom, String prenom, String cin) {
-        super(nom, prenom, cin);
+    public Abonne(String username , String password,String nom, String prenom, String cin) {
+        super(username,password,nom, prenom, cin);
         code_abonne=genererCode();
         favoris= new LinkedList<Document>();
         tbr= new LinkedList<Document>();

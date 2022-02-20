@@ -5,18 +5,19 @@
  */
 package model;
 
-/**
- *
- * @author rachad
- */
+
 public class User {
+    private String username;
+    private String passwrod;
     private String nom;
     private String prenom;
     private String cin;
-    
-    public User(String nom, String prenom, String cin){
-        this.nom= new String(nom);
-        this.prenom= new String(prenom);
+
+    public User(String username, String password, String nom, String prenom, String cin) {
+        this.username = new String(username);
+        this.passwrod = new String(password);
+        this.nom = new String(nom);
+        this.prenom = new String(prenom);
         this.cin = new String(cin);
     }
 
@@ -28,9 +29,17 @@ public class User {
         return prenom;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPasswrod() {
+        return passwrod;
+    }
+
     public String getCin() {
         return cin;
     }
-    
-    }
+
+}
    
