@@ -40,102 +40,11 @@ public class Mediatheque {
           kindleDAO= new KindleUtile();
           empruntDAO= new EmpruntUtile();
     }
-    
-    
-    //CRUD Kindles
-    
-//    public static boolean ajouterKindle(Kindle k) throws SQLException {
-//        return kindleDAO.ajouterKindle(k);
-//    }
-//
-//    public static boolean supprimerKindle(Kindle k) throws SQLException {
-//           return kindleDAO.supprimerKindle(k);
-//    }
-//
-//    public LinkedList<Kindle> getAllKindles() throws  SQLException{
-//        return kindleDAO.getAllKindles();
-//    }
-//
-//    public boolean emprunter(Kindle k, Abonne a) throws SQLException {
-//
-//        if (!k.isEmprunte()){
-//            Emprunt e= new Emprunt(a.getCode_abonne(),k.getCode_kindle());
-//            k.setEmprunte(true);
-//            boolean emprunte=empruntDAO.ajouterEmprunt(e);// la methode ajouterEmprunt() doit verifier si l'adherent n'a pas deja un autre emprunt en cours
-//            return emprunte;
-//        }
-//
-//        return false;
-//
-//    }
-//
-//    public boolean rendre(Kindle k, Abonne a) throws SQLException {
-//        if (k.isEmprunte() && empruntExiste(a,k)){
-//            k.setEmprunte(false);
-//            return true;
-//        }
-//        else
-//            return false;
-//    }
-//
-//    public  boolean empruntExiste(Abonne a , Kindle k) throws SQLException {
-//    // return true s'il y a un emprunt recent realise par l'abonne a avec le kindle k
-//    return empruntDAO.getEmprunt(a,k) != null;
-//    }
-//
-//    //CRUD Adherents
-//
-//    public  Abonne getAdherent(Abonne ab) throws SQLException {
-//        if(ab instanceof Etudiant){
-//            return adherentDAO.getEtudiantByCne(((Etudiant) ab).getCne());
-//        }else if(ab instanceof Professeur){
-//            return adherentDAO.getProfesseurByCin(((Professeur) ab).getCin());
-//        }
-//        return null;
-//    }
-//
-//    public  LinkedList<Emprunt> getEmpruntByAdherent(Abonne ab){return null;}
-//
-//    public boolean ajouterAdherent(Abonne ab) throws SQLException {
-//        if(ab instanceof Professeur){
-//            return adherentDAO.AjouterProfesseur((Professeur) ab);
-//        }else if(ab instanceof Etudiant){
-//            return adherentDAO.AjouterEtudiant((Etudiant) ab);
-//        }
-//        return false;
-//    }
-//
-//    public boolean supprimerAdherent(Abonne ab) throws SQLException{
-//        if(ab instanceof Professeur){
-//            return adherentDAO.SupprimerProfesseur( ((Professeur) ab).getCin());
-//        }else if(ab instanceof Etudiant){
-//            return adherentDAO.SupprimerEtudiant( ((Etudiant) ab).getCne());
-//        }
-//        return false;
-//    }
-//
-//    //CRUD Document
-//
-//    public LinkedList<Document> getAllDocuments() throws SQLException {
-//        return documentDAO.getAllDocuments();
-//    }
-//
-//    public boolean ajouterDocument(Document d) throws SQLException {
-//
-//        return documentDAO.ajouterDocument(d);
-//    }
-//
-//    public boolean supprimerDocument(Document d) throws SQLException {return documentDAO.supprimerDocument(d);}
+
     public static void print(String str){
         System.out.println(str);
     }
 
-
-
-
-
-    
-    
     public static void main(String args[]) throws IOException, SQLException {
         String username="oussama";
         String password="123";
@@ -166,12 +75,12 @@ public class Mediatheque {
         //***4- Gestion des Emprunts
         //***5- m les kindles temporairement  ==>sk.sleep(xx)
         //***6- Reprendre le serveur des kindles  ==> sk.interrupt() // a ne pas afficher si les serveur  est deja demarre
-        //***5- Se Deconnecter
+        //***7- Se Deconnecter
 
         while (true){
 
                 //Menu Admin
-                System.out.println(
+                print(
                         "\n\nVeuillez choisir une option\n"+
                                 "1- Gestion des Kindles\n"+
                                 "2- Gestion des Documents\n"+
