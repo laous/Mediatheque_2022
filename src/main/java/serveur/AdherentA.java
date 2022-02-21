@@ -31,11 +31,11 @@ public class AdherentA {
 
                 // If client sends exit,close this connection
                 // and then break from the while loop
-                if(tosend.equals("Exit"))
+                if(tosend.equals("4"))
                 {
-                    System.out.println("Closing this connection : " + s);
+                    System.out.println("Fermeture de la connection : " + s);
                     s.close();
-                    System.out.println("Connection closed");
+                    System.out.println("Connection fermee");
                     break;
                 }
 

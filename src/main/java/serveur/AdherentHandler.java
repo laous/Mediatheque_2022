@@ -9,8 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class AdherentHandler extends Thread{
-    DateFormat fordate = new SimpleDateFormat("yyyy/MM/dd");
-    DateFormat fortime = new SimpleDateFormat("hh:mm:ss");
     final DataInputStream dis;
     final DataOutputStream dos;
     final Socket s;
@@ -45,12 +43,12 @@ public class AdherentHandler extends Thread{
                 // receive the answer from client
                 received = dis.readUTF();
 
-                if(received == "4")
+                if(received.equals("4"))
                 {
-                    System.out.println("Client " + this.s + " sends exit...");
-                    System.out.println("Closing this connection.");
+                    System.out.println("Adherent " + this.s + " veut quitter ..");
+                    System.out.println("Fermeture de la connection");
                     this.s.close();
-                    System.out.println("Connection closed");
+                    System.out.println("Connection fermee");
                     break;
                 }
 
@@ -62,16 +60,13 @@ public class AdherentHandler extends Thread{
                 switch (received) {
 
                     case "1" :
-//                        toreturn = fordate.format(date);
                         dos.writeUTF("Affichage Informations");
                         break;
 
                     case "2" :
-//                        toreturn = fortime.format(date);
                         dos.writeUTF("Affichage Emprunts");
                         break;
                     case "3" :
-//                        toreturn = fortime.format(date);
                         dos.writeUTF("Gestion Emprunts");
                         break;
 

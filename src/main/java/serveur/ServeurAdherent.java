@@ -21,13 +21,13 @@ public class ServeurAdherent {
                 // socket object to receive incoming client requests
                 s = ss.accept();
 
-                System.out.println("A new client is connected : " + s);
+                System.out.println("Nouveau Adherent connecte: " + s);
 
                 // obtaining input and out streams
                 DataInputStream dis = new DataInputStream(s.getInputStream());
                 DataOutputStream dos = new DataOutputStream(s.getOutputStream());
 
-                System.out.println("Assigning new thread for this client");
+                System.out.println("Affecter un thread a ce client");
 
                 // create a new thread object
                 Thread t = new AdherentHandler(s, dis, dos);
