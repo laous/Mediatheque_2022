@@ -49,6 +49,10 @@ public class Mediatheque {
     private boolean supprimerKindle(Kindle k) throws SQLException {
            return kindleDAO.supprimerKindle(k);
     }
+
+    LinkedList<Kindle> getAllKindles() throws  SQLException{
+        return kindleDAO.getAllKindles();
+    }
     
     boolean emprunter(Kindle k, Abonne a) throws SQLException {
         
@@ -79,9 +83,16 @@ public class Mediatheque {
 
     //CRUD Adherents
 
-    private boolean getAdherent(Abonne ab){return false;}
+    private Abonne getAdherent(Abonne ab) throws SQLException {
+        if(ab instanceof Etudiant){
+            return adherentDAO.getEtudiantByCne(((Etudiant) ab).getCne());
+        }else if(ab instanceof Professeur){
+            return adherentDAO.getProfesseurByCin(((Professeur) ab).getCin());
+        }
+        return null;
+    }
 
-    private LinkedList<Emprunt> getEmpruntByAdherent(){return null;}
+    private LinkedList<Emprunt> getEmpruntByAdherent(Abonne ab){return null;}
 
     boolean ajouterAdherent(Abonne ab) throws SQLException {
         if(ab instanceof Professeur){
