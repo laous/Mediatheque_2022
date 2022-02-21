@@ -79,8 +79,23 @@ public class Mediatheque {
 
     private boolean getAdherent(Abonne ab){return false;}
     private LinkedList<Emprunt> getEmpruntByAdherent(){return null;}
-    boolean ajouterAdherent(){return false;}
-    boolean supprimerAdherent(){return false;}
+
+    boolean ajouterAdherent(Abonne ab) throws SQLException {
+        if(ab instanceof Professeur){
+            return adherentDAO.AjouterProfesseur((Professeur) ab);
+        }else if(ab instanceof Etudiant){
+            return adherentDAO.AjouterEtudiant((Etudiant) ab);
+        }
+        return false;
+    }
+    boolean supprimerAdherent(Abonne ab) throws SQLException{
+        if(ab instanceof Professeur){
+            return adherentDAO.SupprimerProfesseur( ((Professeur) ab).getCin());
+        }else if(ab instanceof Etudiant){
+            return adherentDAO.SupprimerEtudiant( ((Etudiant) ab).getCne());
+        }
+        return false;
+    }
     boolean ajouterDocuement(){return false;}
     boolean supprimerDocument(){return false;}
 

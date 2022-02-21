@@ -22,7 +22,7 @@ public class EmpruntUtile {
 
     public  EmpruntUtile() throws SQLException {
 
-        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mediatheque ","root","2020-2021");
+        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mediatheque ","root","");
 
     }
 
