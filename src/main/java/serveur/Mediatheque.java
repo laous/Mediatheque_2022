@@ -42,15 +42,15 @@ public class Mediatheque {
     
     //CRUD Kindles
     
-    private void ajouterKindle(Kindle k){
-        kindleDAO.ajouterKindle(k);
+    private boolean ajouterKindle(Kindle k) throws SQLException {
+        return kindleDAO.ajouterKindle(k);
     }
 
-     private void supprimerKindle(Kindle k) throws SQLException {
-            kindleDAO.supprimerKindle(k);
+    private boolean supprimerKindle(Kindle k) throws SQLException {
+           return kindleDAO.supprimerKindle(k);
     }
     
-     boolean emprunter(Kindle k, Abonne a) throws SQLException {
+    boolean emprunter(Kindle k, Abonne a) throws SQLException {
         
         if (!k.isEmprunte()){
             Emprunt e= new Emprunt(a.getCode_abonne(),k.getCode_kindle());
@@ -77,7 +77,10 @@ public class Mediatheque {
     return empruntDAO.getEmprunt(a,k) != null;
     }
 
+    //CRUD Adherents
+
     private boolean getAdherent(Abonne ab){return false;}
+
     private LinkedList<Emprunt> getEmpruntByAdherent(){return null;}
 
     boolean ajouterAdherent(Abonne ab) throws SQLException {
@@ -88,6 +91,7 @@ public class Mediatheque {
         }
         return false;
     }
+
     boolean supprimerAdherent(Abonne ab) throws SQLException{
         if(ab instanceof Professeur){
             return adherentDAO.SupprimerProfesseur( ((Professeur) ab).getCin());
@@ -96,8 +100,20 @@ public class Mediatheque {
         }
         return false;
     }
-    boolean ajouterDocuement(){return false;}
-    boolean supprimerDocument(){return false;}
+
+    //CRUD Document
+
+    LinkedList<Document> getAllDocuments() throws SQLException {
+        return documentDAO.getAllDocuments();
+    }
+
+    boolean ajouterDocument(Document d) throws SQLException {
+
+        return documentDAO.ajouterDocument(d);
+    }
+
+    boolean supprimerDocument(Document d) throws SQLException {return documentDAO.supprimerDocument(d);}
+
 
 
 
@@ -112,6 +128,7 @@ public class Mediatheque {
         ServeurKindles sk= new ServeurKindles();
         sk.start();
         //Affichage du menu CRUD ==> BD
+
         //***1- Gestion des Kindles
         //***2- Gestion des Documents
         //***3- Gestion des Adherents

@@ -27,11 +27,12 @@ public class EmpruntUtile {
     }
 
     public boolean ajouterEmprunt(Emprunt ep) throws SQLException {
-        Statement stmt = con.createStatement();
-        String query="";
-        int nbUpdated = stmt.executeUpdate(query);
-
-        return  nbUpdated>0;
+        String query = "INSERT INTO adherent (code_abonne,code_kindle) VALUES (?,?)";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setString(1, ep.getCode_abonne());
+        ps.setString(2, ep.getCode_kindle());
+        int rs = ps.executeUpdate(query);
+        return rs > 0;
     }
 
     public boolean supprimerEmprunt(Emprunt ep) throws SQLException {
@@ -41,6 +42,7 @@ public class EmpruntUtile {
         int nbUpdated = stmt.executeUpdate(query);
         return nbUpdated>0;
     }
+
     public Emprunt getEmprunt(Abonne ab , Kindle kd) throws SQLException {
         Emprunt ep=null;
         Statement stmt = con.createStatement();
@@ -64,6 +66,7 @@ public class EmpruntUtile {
         }
         return emprunts;
     }
+
     public LinkedList<Emprunt> getEmpruntsByKindle(Kindle kd) throws SQLException {
 
         Statement stmt = con.createStatement();
@@ -77,6 +80,7 @@ public class EmpruntUtile {
         }
         return emprunts;
     }
+
     public LinkedList<Emprunt> getAllEmprunts() throws SQLException {
 
         Statement stmt = con.createStatement();

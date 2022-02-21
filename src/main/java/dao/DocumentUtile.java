@@ -36,7 +36,7 @@ public class DocumentUtile <T extends Document> {
 
 
 
-    LinkedList<T> getDocumentsByTitre(String titre) throws SQLException{
+    public LinkedList<T> getDocumentsByTitre(String titre) throws SQLException{
 
         LinkedList<T> documents= new LinkedList<T>();
 
@@ -68,7 +68,7 @@ public class DocumentUtile <T extends Document> {
         return documents;
     }
     
-    T getDocumentByIsbn(String isbn) throws SQLException{
+    public T getDocumentByIsbn(String isbn) throws SQLException{
         Type sooper = getClass().getGenericSuperclass();
         Type t = ((ParameterizedType)sooper).getActualTypeArguments()[0];
         String table="";
@@ -96,7 +96,7 @@ public class DocumentUtile <T extends Document> {
         
     }
     
-    LinkedList<T> getAllDocuments() throws SQLException{
+    public LinkedList<T> getAllDocuments() throws SQLException{
         
         LinkedList<T> documents= new LinkedList<T>();
         
@@ -128,7 +128,7 @@ public class DocumentUtile <T extends Document> {
         return documents;
     }
     
-    LinkedList<T> getDocumentsByEditeur(String editeur) throws SQLException {
+    public LinkedList<T> getDocumentsByEditeur(String editeur) throws SQLException {
         Type sooper = getClass().getGenericSuperclass();
         Type t = ((ParameterizedType)sooper).getActualTypeArguments()[0];
         String table="";
@@ -159,7 +159,7 @@ public class DocumentUtile <T extends Document> {
 
     }
     
-    LinkedList<T> getDocumentsByEdition(String edition) throws SQLException {
+    public LinkedList<T> getDocumentsByEdition(String edition) throws SQLException {
         Type sooper = getClass().getGenericSuperclass();
         Type t = ((ParameterizedType)sooper).getActualTypeArguments()[0];
         String table="";
@@ -189,7 +189,7 @@ public class DocumentUtile <T extends Document> {
         return documents;
     }
     
-    LinkedList<T> getDocumentsByAuteur(String auteur) throws SQLException {
+    public LinkedList<T> getDocumentsByAuteur(String auteur) throws SQLException {
         LinkedList<T> documents= new LinkedList<T>();
 
         Type sooper = getClass().getGenericSuperclass();
@@ -220,7 +220,7 @@ public class DocumentUtile <T extends Document> {
         return documents;
     }
     
-    boolean ajouterDocument(T d) throws SQLException{
+    public boolean ajouterDocument(T d) throws SQLException{
         
     Statement stmt = con.createStatement();
     String query="";
@@ -240,7 +240,7 @@ public class DocumentUtile <T extends Document> {
         
     }
    
-    boolean supprimerDocument(T d) throws SQLException {
+    public boolean supprimerDocument(T d) throws SQLException {
         Statement stmt = con.createStatement();
         String doc="";
 
