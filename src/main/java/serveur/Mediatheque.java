@@ -170,7 +170,7 @@ public class Mediatheque {
 
         while (true){
 
-                // Ask user what he wants
+                //Menu Admin
                 System.out.println(
                         "\n\nVeuillez choisir une option\n"+
                                 "1- Gestion des Kindles\n"+
@@ -180,16 +180,14 @@ public class Mediatheque {
                                 "5- Quitter"
                 );
 
-                // receive the answer from client
+                // la reponse de l'administrateur
                 received = sc.nextLine();
 
-                if(received.equals("4"))
+                if(received.equals("5"))
                 {
                     System.exit(0);
                 }
 
-                // write on output stream based on the
-                // answer from the client
                 String code_kindle , choice, kindle_mac;
                 // Adherent variables
                 String typeAbonne, nomAbonne, prenomAbonne, cinAbonne, cneAbonne,
@@ -230,41 +228,177 @@ public class Mediatheque {
                                 print(response?"Supprime" : "Non Supprime");
 
                                 break;
+                            case "3":
+                                break;
                             default:
-                                print("Autre Option");
+                                print("Invalide Option");
                                 break;
                         }
                         break;
 
                     case "2" :
-                        System.out.println("Gestion des Documents");
+                        print("Gestion des Documents");
                         print(
                                 "\n\nVeuillez choisir une option\n"+
-                                        "1- Ajouter un document\n"+
-                                        "2- Supprimer un document\n"+
+                                        "1- Ajouter un livre\n"+
+                                        "2- Ajouter un roman\n"+
+                                        "3- Supprimer un document\n"+
+                                        "4- Quitter"
+                        );
+                        choice = sc.nextLine();
+                        switch (choice){
+
+                            case "1":
+                                print("Ajout d'un livre</>");
+                                print("Entrez le titre");
+                                titreDocument=sc.nextLine();
+                                print("Entrez l'isbn");
+                                isbnDocument=sc.nextLine();
+                                print("Entrez l'edition");
+                                editonDocument=sc.nextLine();
+                                print("Entrez l'editeur");
+                                editeurDocument=sc.nextLine();
+                                print("Entrez l'auteur");
+                                auteurDocument=sc.nextLine();
+                                print("Entrez le nombre de pages");
+                                nbPagesDocument= sc.nextLine();
+                                documentDAO.ajouterDocument(new Livre(titreDocument, isbnDocument , editonDocument , editeurDocument ,auteurDocument ,  Integer.parseInt(nbPagesDocument)));
+
+                                break;
+                            case "2":
+                                print("Ajout d'un roman</>");
+                                print("Entrez le titre");
+                                titreDocument=sc.nextLine();
+                                print("Entrez l'isbn");
+                                isbnDocument=sc.nextLine();
+                                print("Entrez l'edition");
+                                editonDocument=sc.nextLine();
+                                print("Entrez l'editeur");
+                                editeurDocument=sc.nextLine();
+                                print("Entrez l'auteur");
+                                auteurDocument=sc.nextLine();
+                                print("Entrez le nombre de tomes");
+                                nbTomesDocument= sc.nextLine();
+                                documentDAO.ajouterDocument(new Roman(titreDocument, isbnDocument , editonDocument , editeurDocument ,auteurDocument ,  Integer.parseInt(nbTomesDocument)));
+
+                                break;
+                            case "3":
+                                print("Supression d'un document</>");
+                                print("Entrez l'isbn du document");
+                                isbnDocument = sc.nextLine();
+                                documentDAO.supprimerDocument(documentDAO.getDocumentByIsbn(isbnDocument));
+                                break;
+                            case "4":
+                                break;
+                            default:
+                                print("Invalide Option");
+                                break;
+                        }
+                        break;
+                    case "3" :
+                       print("Gestion des Adherents");
+                        print(
+                                "\n\nVeuillez choisir une option\n"+
+                                        "1- Ajouter un adherent\n"+
+                                        "2- Supprimer un adherent\n"+
                                         "3- Quitter"
                         );
                         choice = sc.nextLine();
                         switch (choice){
 
                             case "1":
-                                print("Ajout d'un document</>");
+                                print("Ajout d'un adherent</>");
+                                print("Entrez le nom");
+                                nomAbonne= sc.nextLine();
+                                print("Entrez le prenom");
+                                prenomAbonne= sc.nextLine();
+                                print("Entrez le username");
+                                usernameAbonne= sc.nextLine();
+                                print("Entrez le password");
+                                passwordAbonne= sc.nextLine();
+                                print("Entrez le cin");
+                                cinAbonne= sc.nextLine();
+                                print("Entrez le type de l'adherent\n" +
+                                        "1: Professeur - 2: Etudiant");
+                                typeAbonne = sc.nextLine();
+                                if(typeAbonne.equals("1")){
+                                    print("Entrez le cnss");
+                                    cnssAbonne= sc.nextLine();
+                                    adherentDAO.AjouterProfesseur(
+                                            new Professeur(usernameAbonne,passwordAbonne,nomAbonne,prenomAbonne,cinAbonne,cnssAbonne)
+                                    );
+                                }else if(typeAbonne.equals("2")){
+                                    print("Entrez le cne");
+                                    cneAbonne= sc.nextLine();
+                                    adherentDAO.AjouterEtudiant(
+                                            new Etudiant(usernameAbonne,passwordAbonne,nomAbonne,prenomAbonne,cinAbonne,cneAbonne)
+                                    );
+                                }else{
+                                    print("TYPE NON CORRECT=> RETOUR AU MENU");
+                                    break;
+                                }
+
+
                                 break;
                             case "2":
-                                print("Supression d'un document</>");
-                                print("Entrez l'isbn du document");
-                                isbnDocument = sc.nextLine();
-                                documentDAO.supprimerDocument(documentDAO.getDocumentByIsbn(isbnDocument));
+                                print("Supression d'un adherent</>");
+                                print("Entrez le type de l'adherent\n" +
+                                        "1: Professeur - 2: Etudiant");
+                                typeAbonne = sc.nextLine();
+                                if(typeAbonne.equals("1")){
+                                    print("Entrez le cin");
+                                    cinAbonne= sc.nextLine();
+                                    adherentDAO.SupprimerProfesseur(cinAbonne);
+                                }else if(typeAbonne.equals("2")){
+                                    print("Entrez le cne");
+                                    cneAbonne= sc.nextLine();
+                                    adherentDAO.SupprimerEtudiant(cneAbonne);
+                                }else{
+                                    print("TYPE NON CORRECT=> RETOUR AU MENU");
+                                    break;
+                                }
+
+                                break;
+                            case "3":
                                 break;
                             default:
-                                print("Option invalide");
+                                print("Invalide Option");
                                 break;
                         }
                         break;
-                    case "3" :
-                        System.out.println("Gestion des Adherents");
+                    case "4":
+                        print("Gestion des Emprunts");
+                        print(
+                                "\n\nVeuillez choisir une option\n"+
+                                        "1- Ajouter un emprunt\n"+
+                                        "2- Supprimer un emprunt\n"+
+                                        "3- Quitter"
+                        );
+                        choice = sc.nextLine();
+                        switch (choice){
+                            case "1":
+                                print("Ajout d'un emprunt");
+                                print("Entrez le cin de l'abonne");
+                                code_abonne= sc.nextLine();
+                                print("Entrez le code de la kindle");
+                                code_kindle = sc.nextLine();
+                                empruntDAO.ajouterEmprunt(new Emprunt(code_abonne, code_kindle));
+                                break;
+                            case "2":
+                                print("Suppression d'un emprunt");
+                                print("Entrez le cin de l'abonne");
+                                code_abonne= sc.nextLine();
+                                print("Entrez le code de la kindle");
+                                code_kindle = sc.nextLine();
+                                empruntDAO.supprimerEmprunt(new Emprunt(code_abonne, code_kindle));
+                                break;
+                            case "3":
+                                break;
+                            default:
+                                print("Invalide Option");
+                                break;
+                        }
                         break;
-
                     default:
                         System.out.println("Invalid input");
                         break;
