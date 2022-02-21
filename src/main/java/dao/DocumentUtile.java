@@ -219,7 +219,7 @@ public class DocumentUtile <T extends Document> {
         }
         return documents;
     }
-    
+
     public boolean ajouterDocument(T d) throws SQLException{
         
     Statement stmt = con.createStatement();
