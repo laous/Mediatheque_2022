@@ -72,6 +72,10 @@ public class KindleUtile {
     }
     
     public boolean ajouterKindle(Kindle k) throws SQLException {
+        if(getKindleByCode(k.getCode_kindle())!=null){
+            System.out.println("Kindle existe");
+            return false;
+        }
         String query = "INSERT INTO kindle (code_kindle, mac) VALUES ('"+k.getCode_kindle()+"','"+k.getMac()+"')";
         Statement stmt = con.createStatement();
         int rs = stmt.executeUpdate(query);
@@ -79,9 +83,9 @@ public class KindleUtile {
 
     }
    
-    public boolean supprimerKindle(Kindle k) throws SQLException {
+    public boolean supprimerKindle(String  code_kindle) throws SQLException {
         Statement stmt = con.createStatement();
-        String query="DELETE FROM kindle where code_kindle like '"+k.getCode_kindle()+"'";
+        String query="DELETE FROM kindle where code_kindle like '"+code_kindle+"'";
         int nbUpdated = stmt.executeUpdate(query);
         return nbUpdated>0;
     }
