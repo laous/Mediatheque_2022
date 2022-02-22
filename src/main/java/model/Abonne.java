@@ -51,7 +51,7 @@ public abstract class Abonne extends User {
     }
     
     public String toString(){
-        return "Abonne: "+code_abonne+" Nom:"+this.getNom()+".......";
+        return "Abonne=[Nom: "+ getNom()+" "+getPrenom()+", CIN:"+getCin()+"]";
     }
     
     

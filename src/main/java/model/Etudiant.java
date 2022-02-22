@@ -21,5 +21,9 @@ public class Etudiant extends Abonne {
     public String getCne() {
         return cne;
     }
+    @Override
+    public String toString() {
+        return "Etudiant=[Nom: "+ getNom()+" "+getPrenom()+", CIN:"+getCin()+", CNE:"+getCne()+"]\n";
+    }
     
 }

@@ -21,4 +21,9 @@ public class Professeur extends Abonne {
     public String getCnss() {
         return cnss;
     }
+
+    @Override
+    public String toString() {
+        return "Professeur=[Nom: "+ getNom()+" "+getPrenom()+", CIN:"+getCin()+", CNSS:"+getCnss()+"]\n";
+    }
 }
