@@ -23,17 +23,16 @@ public class KindleUtile {
     
     public KindleUtile() throws SQLException{
             
-        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mediatheque ","root","");
+        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mediatheque","root","");
     }
     
     
     public Kindle getKindleByMac(String mac) throws SQLException {
-        String table="kindle";
-        Kindle k= null;
+        Kindle k = null;
 
 
         Statement stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery("select * from"+ table+" where mac like '"+mac+"' ");
+        ResultSet rs = stmt.executeQuery("select * from kindle where mac like '"+mac+"' ");
 
 
         while (rs.next()) {
@@ -72,8 +71,8 @@ public class KindleUtile {
          return kindles;
     }
     
-    public boolean ajouterKindle(Kindle k) throws SQLException {
-        String query = "INSERT INTO adherent (code_kindle, mac) VALUES (?,?)";
+    public boolean ajouterKindle(Kindle k) throws SQLException,NullPointerException {
+        String query = "INSERT INTO kindle (code_kindle, mac) VALUES (?,?)";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setString(1, k.getCode_kindle());
         ps.setString(2, k.getMac());
