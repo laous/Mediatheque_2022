@@ -37,7 +37,7 @@ public class EmpruntUtile {
 
     public boolean supprimerEmprunt(Emprunt ep) throws SQLException {
         Statement stmt = con.createStatement();
-        String query="DELETE FROM emprunt where code_kindle like "+ep.getCode_kindle();
+        String query="DELETE FROM emprunt WHERE code_kindle LIKE '"+ep.getCode_kindle()+"' AND code_abonne LIKE '"+ep.getCode_abonne()+"'";
 
         int nbUpdated = stmt.executeUpdate(query);
         return nbUpdated>0;
@@ -46,7 +46,7 @@ public class EmpruntUtile {
     public Emprunt getEmprunt(Abonne ab , Kindle kd) throws SQLException {
         Emprunt ep=null;
         Statement stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery("select * from emprunt where code_abonne like "+ ab.getCode_abonne());
+        ResultSet rs = stmt.executeQuery("select * from emprunt where code_abonne like '"+ ab.getCode_abonne()+"' AND code_kindle LIKE '"+ep.getCode_kindle()+"'");
         while(rs.next()){
             ep=new Emprunt(rs.getString("code_abonne"), rs.getString("code_kindle"));
 
@@ -56,7 +56,7 @@ public class EmpruntUtile {
 
     public LinkedList<Emprunt> getEmpruntsByAbonne(Abonne ab) throws SQLException {
         Statement stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery("select * from emprunt where code_kindle like "+ ab.getCode_abonne());
+        ResultSet rs = stmt.executeQuery("select * from emprunt where code_abonne like '"+ ab.getCode_abonne()+"'");
 
         LinkedList<Emprunt> emprunts= new LinkedList<>();
 
@@ -70,7 +70,7 @@ public class EmpruntUtile {
     public LinkedList<Emprunt> getEmpruntsByKindle(Kindle kd) throws SQLException {
 
         Statement stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery("select * from emprunt where code_kindle like "+ kd.getCode_kindle());
+        ResultSet rs = stmt.executeQuery("select * from emprunt where code_kindle like '"+ kd.getCode_kindle()+"'");
 
         LinkedList<Emprunt> emprunts= new LinkedList<>();
 
