@@ -36,59 +36,36 @@ public class DocumentUtile <T extends Document> {
 
 
 
-    public LinkedList<T> getDocumentsByTitre(String titre) throws SQLException{
-
-        LinkedList<T> documents= new LinkedList<T>();
-
-        Type sooper = getClass().getGenericSuperclass();
-        Type t = ((ParameterizedType)sooper).getActualTypeArguments()[0];
-        String table="";
-
-        if(t.getTypeName().equals("Livre"))
-            table="livre";
-        else
-            table="roman";
-
-
+    public T getDocumentByTitre(String titre) throws SQLException{
         Statement stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery("select * from"+ table+" where titre like '"+titre+"' ");
-
+        ResultSet rs = stmt.executeQuery("select * from document where titre like '"+titre+"'");
+        T d= null;
 
         while (rs.next()) {
-            T d= null;
-            if (table=="livre"){
+
+            if (rs.getString("type").equals("livre")){
                 d= (T) new Livre(rs.getString("titre") ,rs.getString("isbn"), rs.getString("edition"), rs.getString("editeur"), rs.getString("auteur"), rs.getInt("nbPages") );
 
             }
-            else{
+            else if (rs.getString("type").equals("roman")){
                 d=(T)new Roman(rs.getString("titre") ,rs.getString("isbn"), rs.getString("edition"), rs.getString("editeur"), rs.getString("auteur"), rs.getInt("nbTomes") );
             }
-            documents.add(d);
         }
-        return documents;
+        return d;
     }
     
     public T getDocumentByIsbn(String isbn) throws SQLException{
-        Type sooper = getClass().getGenericSuperclass();
-        Type t = ((ParameterizedType)sooper).getActualTypeArguments()[0];
-        String table="";
-        
-        if(t.getTypeName().equals("Livre"))
-            table="livre";
-        else
-            table="roman";
-        
-       
-       Statement stmt = con.createStatement();
-       ResultSet rs = stmt.executeQuery("select * from"+ table+" where isbn like '"+isbn+"' ");
-       T d= null;
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery("select * from document where isbn like '"+isbn+"'");
+        T d= null;
 
         while (rs.next()) {
-            if (table=="livre"){
+
+            if (rs.getString("type").equals("livre")){
                 d= (T) new Livre(rs.getString("titre") ,rs.getString("isbn"), rs.getString("edition"), rs.getString("editeur"), rs.getString("auteur"), rs.getInt("nbPages") );
 
             }
-            else{
+            else if (rs.getString("type").equals("roman")){
                 d=(T)new Roman(rs.getString("titre") ,rs.getString("isbn"), rs.getString("edition"), rs.getString("editeur"), rs.getString("auteur"), rs.getInt("nbTomes") );
             }
         }
@@ -99,28 +76,19 @@ public class DocumentUtile <T extends Document> {
     public LinkedList<T> getAllDocuments() throws SQLException{
         
         LinkedList<T> documents= new LinkedList<T>();
-        
-            Type sooper = getClass().getGenericSuperclass();
-            Type t = ((ParameterizedType)sooper).getActualTypeArguments()[0];
-            String table="";
-
-            if(t.getTypeName().equals("Livre"))
-                table="livre";
-            else
-                table="roman";
 
 
            Statement stmt = con.createStatement();
-           ResultSet rs = stmt.executeQuery("select * from"+ table);
+           ResultSet rs = stmt.executeQuery("select * from document");
           
 
         while (rs.next()) {
             T d= null;
-            if (table=="livre"){
+            if (rs.getString("type").equals("livre")){
                 d= (T) new Livre(rs.getString("titre") ,rs.getString("isbn"), rs.getString("edition"), rs.getString("editeur"), rs.getString("auteur"), rs.getInt("nbPages") );
 
             }
-            else{
+            else if (rs.getString("type").equals("roman")){
                 d=(T)new Roman(rs.getString("titre") ,rs.getString("isbn"), rs.getString("edition"), rs.getString("editeur"), rs.getString("auteur"), rs.getInt("nbTomes") );
             }
             documents.add(d);
@@ -129,90 +97,57 @@ public class DocumentUtile <T extends Document> {
     }
     
     public LinkedList<T> getDocumentsByEditeur(String editeur) throws SQLException {
-        Type sooper = getClass().getGenericSuperclass();
-        Type t = ((ParameterizedType)sooper).getActualTypeArguments()[0];
-        String table="";
-
-        if(t.getTypeName().equals("Livre"))
-            table="livre";
-        else
-            table="roman";
-
 
         Statement stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery("select * from"+ table+" where editeur like '"+editeur+"' ");
+        ResultSet rs = stmt.executeQuery("select * from document where editeur like '"+editeur+"' ");
         T d= null;
         LinkedList<T> documents= new LinkedList<T>();
 
         while (rs.next()) {
-            if (table=="livre"){
+            if (rs.getString("type").equals("livre")){
                 d= (T) new Livre(rs.getString("titre") ,rs.getString("isbn"), rs.getString("edition"), rs.getString("editeur"), rs.getString("auteur"), rs.getInt("nbPages") );
 
             }
-            else{
+            else if (rs.getString("type").equals("roman")){
                 d=(T)new Roman(rs.getString("titre") ,rs.getString("isbn"), rs.getString("edition"), rs.getString("editeur"), rs.getString("auteur"), rs.getInt("nbTomes") );
             }
             documents.add(d);
         }
-
         return documents;
 
     }
     
     public LinkedList<T> getDocumentsByEdition(String edition) throws SQLException {
-        Type sooper = getClass().getGenericSuperclass();
-        Type t = ((ParameterizedType)sooper).getActualTypeArguments()[0];
-        String table="";
-
-        if(t.getTypeName().equals("Livre"))
-            table="livre";
-        else
-            table="roman";
-
-
         Statement stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery("select * from"+ table+" where edition like '"+edition+"' ");
+        ResultSet rs = stmt.executeQuery("select * from document where edition like '"+edition+"' ");
         T d= null;
         LinkedList<T> documents= new LinkedList<T>();
 
         while (rs.next()) {
-            if (table=="livre"){
+            if (rs.getString("type").equals("livre")){
                 d= (T) new Livre(rs.getString("titre") ,rs.getString("isbn"), rs.getString("edition"), rs.getString("editeur"), rs.getString("auteur"), rs.getInt("nbPages") );
 
             }
-            else{
+            else if (rs.getString("type").equals("roman")){
                 d=(T)new Roman(rs.getString("titre") ,rs.getString("isbn"), rs.getString("edition"), rs.getString("editeur"), rs.getString("auteur"), rs.getInt("nbTomes") );
             }
             documents.add(d);
         }
-
         return documents;
     }
     
     public LinkedList<T> getDocumentsByAuteur(String auteur) throws SQLException {
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery("select * from document where auteur like '"+auteur+"' ");
+        T d= null;
         LinkedList<T> documents= new LinkedList<T>();
 
-        Type sooper = getClass().getGenericSuperclass();
-        Type t = ((ParameterizedType)sooper).getActualTypeArguments()[0];
-        String table="";
-
-        if(t.getTypeName().equals("Livre"))
-            table="livre";
-        else
-            table="roman";
-
-
-        Statement stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery("select * from"+ table+" where auteur like '"+auteur+"' ");
-
-
         while (rs.next()) {
-            T d= null;
-            if (table=="livre"){
+            if (rs.getString("type").equals("livre")){
                 d= (T) new Livre(rs.getString("titre") ,rs.getString("isbn"), rs.getString("edition"), rs.getString("editeur"), rs.getString("auteur"), rs.getInt("nbPages") );
 
             }
-            else{
+            else if (rs.getString("type").equals("roman")){
                 d=(T)new Roman(rs.getString("titre") ,rs.getString("isbn"), rs.getString("edition"), rs.getString("editeur"), rs.getString("auteur"), rs.getInt("nbTomes") );
             }
             documents.add(d);
@@ -226,12 +161,12 @@ public class DocumentUtile <T extends Document> {
     String query="";
     
     if (d instanceof Livre){
-      query="INSERT INTO document (`type`,`titre`, `isbn`, `edition`,`editeur` , `auteur`) VALUES" +
-              "('livre','"+ d.getTitre()+"','"+d.getIsbn()+"','"+d.getEdition()+"','"+d.getEditeur()+"','"+d.getAuteur()+"')";
+      query="INSERT INTO document (`type`,`titre`, `isbn`, `edition`,`editeur` , `auteur` ,`nbPages`) VALUES" +
+              "('livre','"+ d.getTitre()+"','"+d.getIsbn()+"','"+d.getEdition()+"','"+d.getEditeur()+"','"+d.getAuteur()+"','"+((Livre) d).getNbPages()+"')";
     }
     else  if (d instanceof Roman){
         query="INSERT INTO document (`type`,`titre`, `isbn`, `edition`,`editeur` , `auteur`) VALUES" +
-                "('roman','"+ d.getTitre()+"','"+d.getIsbn()+"','"+d.getEdition()+"','"+d.getEditeur()+"','"+d.getAuteur()+"')";
+                "('roman','"+ d.getTitre()+"','"+d.getIsbn()+"','"+d.getEdition()+"','"+d.getEditeur()+"','"+d.getAuteur()+"','"+((Roman) d).getNbTomes()+"')";
     }
     
     int nbUpdated = stmt.executeUpdate(query);
@@ -242,15 +177,14 @@ public class DocumentUtile <T extends Document> {
    
     public boolean supprimerDocument(T d) throws SQLException {
         Statement stmt = con.createStatement();
-        String doc="";
+        String doc="", query="";
 
         if (d instanceof Livre){
-            doc="livre";
+             query="DELETE FROM document where isbn like '"+d.getIsbn()+"' and type like 'livre'";
         }
         else  if (d instanceof Roman){
-            doc="livre";
+             query="DELETE FROM document where isbn like '"+d.getIsbn()+"' and type like 'roman'";
         }
-        String query="DELETE FROM "+doc+" where isbn like "+d.getIsbn();
 
         int nbUpdated = stmt.executeUpdate(query);
         return nbUpdated>0;

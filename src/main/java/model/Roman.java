@@ -18,5 +18,8 @@ public class Roman extends Document {
         this.nbTomes=nbTomes;
         
     }
+    public int getNbTomes(){
+        return nbTomes;
+    }
     
 }
