@@ -21,5 +21,11 @@ public class Roman extends Document {
     public int getNbTomes(){
         return nbTomes;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Roman {" + super.toString() +
+                ", nbTomes=" + nbTomes +
+                '}';
+    }
 }

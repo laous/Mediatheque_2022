@@ -21,7 +21,11 @@ public class Livre extends Document {
     public int getNbPages() {
         return nbPages;
     }
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return "Livre {" + super.toString() +
+                ", nbPages=" + nbPages +
+                '}';
+    }
 }

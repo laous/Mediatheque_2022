@@ -44,9 +44,15 @@ public class Document {
     public String getAuteur() {
         return auteur;
     }
-    
-    
-    
-    
-    
+
+
+    @Override
+    public String toString() {
+        return  "titre='" + titre + '\'' +
+                ", isbn='" + isbn + '\'' +
+                ", edition='" + edition + '\'' +
+                ", editeur='" + editeur + '\'' +
+                ", auteur='" + auteur + '\''
+                ;
+    }
 }
