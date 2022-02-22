@@ -207,8 +207,8 @@ public class Mediatheque {
                                 auteurDocument=sc.nextLine();
                                 print("Entrez le nombre de pages");
                                 nbPagesDocument= sc.nextLine();
-                                documentDAO.ajouterDocument(new Livre(titreDocument, isbnDocument , editonDocument , editeurDocument ,auteurDocument ,  Integer.parseInt(nbPagesDocument)));
-
+                                response = documentDAO.ajouterDocument(new Livre(titreDocument, isbnDocument , editonDocument , editeurDocument ,auteurDocument ,  Integer.parseInt(nbPagesDocument)));
+                                print(response?"Livre Ajoute" : "Livre Non Ajoute");
                                 break;
                             case "2":
                                 print("Ajout d'un roman</>");
@@ -224,14 +224,15 @@ public class Mediatheque {
                                 auteurDocument=sc.nextLine();
                                 print("Entrez le nombre de tomes");
                                 nbTomesDocument= sc.nextLine();
-                                documentDAO.ajouterDocument(new Roman(titreDocument, isbnDocument , editonDocument , editeurDocument ,auteurDocument ,  Integer.parseInt(nbTomesDocument)));
-
+                                response = documentDAO.ajouterDocument(new Roman(titreDocument, isbnDocument , editonDocument , editeurDocument ,auteurDocument ,  Integer.parseInt(nbTomesDocument)));
+                                print(response?"Roman Ajoute" : "Roman Non Ajoute");
                                 break;
                             case "3":
                                 print("Supression d'un document</>");
                                 print("Entrez l'isbn du document");
                                 isbnDocument = sc.nextLine();
-                                documentDAO.supprimerDocument(documentDAO.getDocumentByIsbn(isbnDocument));
+                                response = documentDAO.supprimerDocument(documentDAO.getDocumentByIsbn(isbnDocument));
+                                print(response?"Document Supprime" : "Document Non Supprime");
                                 break;
                             case "4":
                                 break;
@@ -269,15 +270,17 @@ public class Mediatheque {
                                 if(typeAbonne.equals("1")){
                                     print("Entrez le cnss");
                                     cnssAbonne= sc.nextLine();
-                                    adherentDAO.AjouterProfesseur(
+                                    response  = adherentDAO.AjouterProfesseur(
                                             new Professeur(usernameAbonne,passwordAbonne,nomAbonne,prenomAbonne,cinAbonne,cnssAbonne)
                                     );
+                                    print(response?"Professeur Ajoute" : "Professeur Non Ajoute");
                                 }else if(typeAbonne.equals("2")){
                                     print("Entrez le cne");
                                     cneAbonne= sc.nextLine();
-                                    adherentDAO.AjouterEtudiant(
+                                    response=adherentDAO.AjouterEtudiant(
                                             new Etudiant(usernameAbonne,passwordAbonne,nomAbonne,prenomAbonne,cinAbonne,cneAbonne)
                                     );
+                                    print(response?"Etudiant Ajoute" : "Etudiant Non Ajoute");
                                 }else{
                                     print("TYPE NON CORRECT=> RETOUR AU MENU");
                                     break;
@@ -293,11 +296,13 @@ public class Mediatheque {
                                 if(typeAbonne.equals("1")){
                                     print("Entrez le cin");
                                     cinAbonne= sc.nextLine();
-                                    adherentDAO.SupprimerProfesseur(cinAbonne);
+                                    response =adherentDAO.SupprimerProfesseur(cinAbonne);
+                                    print(response?"Professeur Supprime" : "Professeur Non Supprime");
                                 }else if(typeAbonne.equals("2")){
                                     print("Entrez le cne");
                                     cneAbonne= sc.nextLine();
-                                    adherentDAO.SupprimerEtudiant(cneAbonne);
+                                    response = adherentDAO.SupprimerEtudiant(cneAbonne);
+                                    print(response?"Etudiant Supprime" : "Etudiant Non Supprime");
                                 }else{
                                     print("TYPE NON CORRECT=> RETOUR AU MENU");
                                     break;
@@ -327,7 +332,8 @@ public class Mediatheque {
                                 code_abonne= sc.nextLine();
                                 print("Entrez le code de la kindle");
                                 code_kindle = sc.nextLine();
-                                empruntDAO.ajouterEmprunt(new Emprunt(code_abonne, code_kindle));
+                                response =empruntDAO.ajouterEmprunt(new Emprunt(code_abonne, code_kindle));
+                                print(response?"Emprunt Ajoute" : "Emprunt Non Ajoute");
                                 break;
                             case "2":
                                 print("Suppression d'un emprunt");
@@ -335,7 +341,8 @@ public class Mediatheque {
                                 code_abonne= sc.nextLine();
                                 print("Entrez le code de la kindle");
                                 code_kindle = sc.nextLine();
-                                empruntDAO.supprimerEmprunt(new Emprunt(code_abonne, code_kindle));
+                                response = empruntDAO.supprimerEmprunt(new Emprunt(code_abonne, code_kindle));
+                                print(response?"Emprunt Supprime" : "Emprunt Non Supprime");
                                 break;
                             case "3":
                                 break;
