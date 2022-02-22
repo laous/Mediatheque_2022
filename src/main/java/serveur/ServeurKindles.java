@@ -9,6 +9,9 @@ import dao.AdherentUtile;
 import dao.AuthenticationUtile;
 import dao.DocumentUtile;
 import model.Document;
+import model.Kindle;
+import model.Livre;
+import model.Roman;
 
 import javax.print.Doc;
 import java.io.*;
@@ -16,7 +19,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,7 +40,7 @@ public class ServeurKindles extends Thread {
                 t.start();
             }
 
-        } catch (IOException ex) {
+        } catch (IOException | SQLException ex) {
             Logger.getLogger(ServeurKindles.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -47,11 +49,11 @@ public class ServeurKindles extends Thread {
     class SocketThread implements Runnable {
 
         private Socket soc;
-        DocumentUtile docDAO;
-        AdherentUtile adDAO;
-        AuthenticationUtile authDAO;
+        final DocumentUtile docDAO = new DocumentUtile();
+        final AdherentUtile adDAO = new AdherentUtile();
+        final AuthenticationUtile authDAO = new AuthenticationUtile();
 
-        public SocketThread(Socket soc) {
+        public SocketThread(Socket soc) throws SQLException {
             this.soc = soc;
         }
 
@@ -78,6 +80,8 @@ public class ServeurKindles extends Thread {
                  **/
                 boolean repeat = true;
                 String type = authentication(entree, sortie); // authentication
+//                Kindle k = getKindleInfos(entree,sortie);
+//                boolean assoc = associate(k,type);
                 while (repeat) {
                     if (type != null) {
                         String test = entree.readLine();
@@ -87,7 +91,10 @@ public class ServeurKindles extends Thread {
                             case "editeur" -> getDocumentsByEditeur(entree, sortie);
                             case "edition" -> getDocumentsByEdition(entree, sortie);
                             case "auteur" -> getDocumentsByAuteur(entree, sortie);
-                            case "quit" -> repeat = false;
+                            case "quit" -> {
+                                quit(entree, sortie);
+                                repeat = false;
+                            }
                         }
                     } else {
                         sortie.write("Cannot validate credentials\n");
@@ -112,49 +119,127 @@ public class ServeurKindles extends Thread {
         }
 
         public String authentication(BufferedReader entree, OutputStreamWriter sortie) throws IOException, SQLException {
-            System.out.println("----Authentication----");
             String username = entree.readLine();
             String password = entree.readLine();
-
-            System.out.println("Credentials received");
 //           return authDAO.authentication(username,password);
             return "Jonas";
         }
 
+        public Kindle getKindleInfos(BufferedReader entree, OutputStreamWriter sortie) {
+            /**
+             * TODO: Get kindle infos from Kindle client through streams
+             * Infos : code_kinle and mac
+             * Create Kindle object then return it
+             * Kindle.setEmprunter(true)
+             */
+            return null;
+        }
+
+        public boolean associate(Kindle k, String type) {
+            // TODO: Associate Kindle to abonne through Emprunt Object
+            // Return true if added false if not
+            return true;
+        }
 
         public void getAllDocs(OutputStreamWriter sortie) throws IOException, SQLException {
-           LinkedList doc = docDAO.getAllDocuments();
-            sortie.write("All documents\n");
+            LinkedList doc = docDAO.getAllDocuments();
+            StringBuilder response = new StringBuilder("");
+            for (Object d : doc) {
+                if (d instanceof Livre) {
+                    Livre l = (Livre) d;
+                    response.append(l.toString());
+                    response.append("\n");
+                } else {
+                    Roman r = (Roman) d;
+                    response.append(r.toString());
+                    response.append("\n");
+                }
+            }
+            sortie.write("--------All documents---------\n" + response + "\n");
             sortie.flush();
         }
 
         public void getDocumentByTitre(BufferedReader entree, OutputStreamWriter sortie) throws IOException, SQLException {
             String titre = entree.readLine();
-//           Document doc = docDAO.getDocumentByTitre(titre);
-            sortie.write("Titre received here's a response\n");
-            sortie.flush();
+            Document doc = docDAO.getDocumentByTitre(titre);
+            if (doc instanceof Livre) {
+                Livre l = (Livre) doc;
+                sortie.write(l.toString() + "\n");
+                sortie.flush();
+            } else if (doc instanceof Roman) {
+                Roman r = (Roman) doc;
+                sortie.write(r.toString() + "\n");
+                sortie.flush();
+            } else {
+                sortie.write("No document with this title found!\n");
+                sortie.flush();
+            }
+
         }
 
         public void getDocumentsByEditeur(BufferedReader entree, OutputStreamWriter sortie) throws IOException, SQLException {
             String editeur = entree.readLine();
-//           LinkedList doc = docDAO.getDocumentsByEditeur(editeur);
-            sortie.write("Editeur received here's a response\n");
+            LinkedList doc = docDAO.getDocumentsByEditeur(editeur);
+            StringBuilder response = new StringBuilder("");
+
+            for (Object d : doc) {
+                if (d instanceof Livre) {
+                    Livre l = (Livre) d;
+                    response.append(l.toString());
+                    response.append("\n");
+                } else {
+                    Roman r = (Roman) d;
+                    response.append(r.toString());
+                    response.append("\n");
+                }
+            }
+            sortie.write("Documents with editeur: " + editeur + "\n" + response + "\n");
             sortie.flush();
         }
 
         public void getDocumentsByEdition(BufferedReader entree, OutputStreamWriter sortie) throws IOException, SQLException {
             String edition = entree.readLine();
-//           LinkedList doc = docDAO.getDocumentsByEdition(edition);
-            sortie.write("Edition received here's a response\n");
+            LinkedList doc = docDAO.getDocumentsByEdition(edition);
+            StringBuilder response = new StringBuilder("");
+
+            for (Object d : doc) {
+                if (d instanceof Livre) {
+                    Livre l = (Livre) d;
+                    response.append(l.toString());
+                    response.append("\n");
+                } else {
+                    Roman r = (Roman) d;
+                    response.append(r.toString());
+                    response.append("\n");
+                }
+            }
+            sortie.write("Documents with edition: " + edition + "\n" + response + "\n");
             sortie.flush();
         }
 
         public void getDocumentsByAuteur(BufferedReader entree, OutputStreamWriter sortie) throws IOException, SQLException {
             String auteur = entree.readLine();
-//           LinkedList doc = docDAO.getDocumentsByAuteur(edition);
-            sortie.write("Auteur received here's a response\n");
+            LinkedList doc = docDAO.getDocumentsByAuteur(auteur);
+            StringBuilder response = new StringBuilder("");
+
+            for (Object d : doc) {
+                if (d instanceof Livre) {
+                    Livre l = (Livre) d;
+                    response.append(l.toString());
+                    response.append("\n");
+                } else {
+                    Roman r = (Roman) d;
+                    response.append(r.toString());
+                    response.append("\n");
+                }
+            }
+            sortie.write("Documents with auteur: " + auteur + "\n" + response + "\n");
             sortie.flush();
         }
+
+        public void quit(BufferedReader entree, OutputStreamWriter sortie) {
+        }
+
     }
 
 } 
