@@ -18,6 +18,9 @@ import java.util.LinkedList;
  */
 public class EmpruntUtile {
     private final Connection con;
+    private final KindleUtile kindleADO = new KindleUtile();
+    private final AdherentUtile abonneDAO = new AdherentUtile();
+
 
 
     public  EmpruntUtile() throws SQLException {
@@ -27,58 +30,60 @@ public class EmpruntUtile {
     }
 
     public boolean ajouterEmprunt(Emprunt ep) throws SQLException {
-        String query = "INSERT INTO emprunt (code_abonne,code_kindle) VALUES (?,?)";
-        PreparedStatement ps = con.prepareStatement(query);
-        ps.setString(1, ep.getCode_abonne());
-        ps.setString(2, ep.getCode_kindle());
-        int rs = ps.executeUpdate(query);
-        return rs > 0;
+        if(getEmpruntByKindle(kindleADO.getKindleByCode(ep.getCode_kindle()))!=null ){
+            System.out.println("Kindle deja emprunte");
+            return false;
+        }
+        if(getEmpruntByAbonne(abonneDAO.getAbonneByCIN(ep.getCode_abonne()))!=null){
+            System.out.println("Abonne a deja un kindle");
+            return false;
+        }
+        String query = "INSERT INTO emprunt (code_abonne,code_kindle) VALUES ('"+ep.getCode_abonne()+"','"+ep.getCode_kindle()+"')";
+        Statement stmt = con.createStatement();
+        String query2="UPDATE kindle SET emprunte = 'Y' WHERE code_kindle LIKE '"+ep.getCode_kindle()+"'";
+        stmt.executeUpdate(query2);
+        int nbUpdated = stmt.executeUpdate(query);
+        return nbUpdated>0;
     }
 
     public boolean supprimerEmprunt(Emprunt ep) throws SQLException {
         Statement stmt = con.createStatement();
         String query="DELETE FROM emprunt WHERE code_kindle LIKE '"+ep.getCode_kindle()+"' AND code_abonne LIKE '"+ep.getCode_abonne()+"'";
-
+        String query2="UPDATE kindle SET emprunte = 'N' WHERE code_kindle LIKE '"+ep.getCode_kindle()+"'";
+        stmt.executeUpdate(query2);
         int nbUpdated = stmt.executeUpdate(query);
         return nbUpdated>0;
     }
 
     public Emprunt getEmprunt(Abonne ab , Kindle kd) throws SQLException {
-        Emprunt ep=null;
         Statement stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery("select * from emprunt where code_abonne like '"+ ab.getCode_abonne()+"' AND code_kindle LIKE '"+ep.getCode_kindle()+"'");
+        ResultSet rs = stmt.executeQuery("select * from emprunt where code_abonne like '"+ ab.getCode_abonne()+"' AND code_kindle LIKE '"+kd.getCode_kindle()+"'");
         while(rs.next()){
-            ep=new Emprunt(rs.getString("code_abonne"), rs.getString("code_kindle"));
+            return new Emprunt(rs.getString("code_abonne"), rs.getString("code_kindle"));
 
         }
-        return ep;
+        return null;
     }
 
-    public LinkedList<Emprunt> getEmpruntsByAbonne(Abonne ab) throws SQLException {
+    public Emprunt getEmpruntByAbonne(Abonne ab) throws SQLException {
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery("select * from emprunt where code_abonne like '"+ ab.getCode_abonne()+"'");
 
-        LinkedList<Emprunt> emprunts= new LinkedList<>();
-
         while (rs.next()) {
-            Emprunt ep= new Emprunt(rs.getString("code_abonne") ,rs.getString("code_kindle"));
-            emprunts.add(ep);
+            return new Emprunt(rs.getString("code_abonne") ,rs.getString("code_kindle"));
         }
-        return emprunts;
+        return null;
     }
 
-    public LinkedList<Emprunt> getEmpruntsByKindle(Kindle kd) throws SQLException {
+    public Emprunt getEmpruntByKindle(Kindle kd) throws SQLException {
 
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery("select * from emprunt where code_kindle like '"+ kd.getCode_kindle()+"'");
 
-        LinkedList<Emprunt> emprunts= new LinkedList<>();
-
         while (rs.next()) {
-            Emprunt ep= new Emprunt(rs.getString("code_abonne") ,rs.getString("code_kindle"));
-            emprunts.add(ep);
+             return  new Emprunt(rs.getString("code_abonne") ,rs.getString("code_kindle"));
         }
-        return emprunts;
+        return null;
     }
 
     public LinkedList<Emprunt> getAllEmprunts() throws SQLException {
@@ -94,5 +99,11 @@ public class EmpruntUtile {
         }
         return emprunts;
     }
-    
+    public boolean emprunter(Kindle kd, Abonne ab) throws SQLException {
+        return ajouterEmprunt(new Emprunt(ab.getCode_abonne() , kd.getCode_kindle()));
+    }
+    public boolean rendre(Emprunt ep) throws SQLException{
+        return supprimerEmprunt(ep);
+    }
+
 }
