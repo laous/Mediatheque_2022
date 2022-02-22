@@ -34,7 +34,12 @@ public class Emprunt {
     public Date getDate_emprunt() {
         return date_emprunt;
     }
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return "Emprunt{" +
+                "code_abonne='" + code_abonne + '\'' +
+                ", code_kindle='" + code_kindle +
+                "}\n";
+    }
 }

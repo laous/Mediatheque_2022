@@ -35,9 +35,13 @@ public class Kindle {
     public void setEmprunte(boolean emprunte) {
         this.emprunte = emprunte;
     }
-    
-    
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return "Kindle{" +
+                "code_kindle='" + code_kindle + '\'' +
+                ", mac='" + mac + '\'' +
+                ", emprunte=" + emprunte +
+                "}\n";
+    }
 }
