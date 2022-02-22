@@ -72,13 +72,15 @@ public class AdherentUtile {
         String query = "SELECT * FROM adherent WHERE cin like '" + cin +"'";
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery(query);
-        while (rs.next()){
+        while(rs.next()){
             if (rs.getString("type").equals("professeur")) {  // Type professeur
                 return new Professeur(rs.getString("username"), rs.getString("password"), rs.getString("nom"), rs.getString("prenom"), rs.getString("cin"), rs.getString("cnss"));
             }else  if (rs.getString("type").equals("etudiant")){
                 return new Etudiant(rs.getString("username"), rs.getString("password"), rs.getString("nom"), rs.getString("prenom"), rs.getString("cin"), rs.getString("cne"));
             }
+
         }
+
         System.out.println("Adherent Non trouve");
         return null;
 

@@ -57,7 +57,7 @@ public class EmpruntUtile {
 
     public Emprunt getEmprunt(Abonne ab , Kindle kd) throws SQLException {
         Statement stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery("select * from emprunt where code_abonne like '"+ ab.getCode_abonne()+"' AND code_kindle LIKE '"+kd.getCode_kindle()+"'");
+        ResultSet rs = stmt.executeQuery("select * from emprunt where code_abonne like '"+ ab.getCin()+"' AND code_kindle LIKE '"+kd.getCode_kindle()+"'");
         while(rs.next()){
             return new Emprunt(rs.getString("code_abonne"), rs.getString("code_kindle"));
 
@@ -67,7 +67,7 @@ public class EmpruntUtile {
 
     public Emprunt getEmpruntByAbonne(Abonne ab) throws SQLException {
         Statement stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery("select * from emprunt where code_abonne like '"+ ab.getCode_abonne()+"'");
+        ResultSet rs = stmt.executeQuery("select * from emprunt where code_abonne like '"+ ab.getCin()+"'");
 
         while (rs.next()) {
             return new Emprunt(rs.getString("code_abonne") ,rs.getString("code_kindle"));
@@ -100,7 +100,7 @@ public class EmpruntUtile {
         return emprunts;
     }
     public boolean emprunter(Kindle kd, Abonne ab) throws SQLException {
-        return ajouterEmprunt(new Emprunt(ab.getCode_abonne() , kd.getCode_kindle()));
+        return ajouterEmprunt(new Emprunt(ab.getCin() , kd.getCode_kindle()));
     }
     public boolean rendre(Emprunt ep) throws SQLException{
         return supprimerEmprunt(ep);

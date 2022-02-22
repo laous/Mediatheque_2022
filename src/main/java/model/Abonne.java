@@ -13,7 +13,6 @@ import java.util.LinkedList;
  * @author rachad
  */
 public abstract class Abonne extends User {
-    private String code_abonne;
     private Date date_abonnement;
     private LinkedList<Document> favoris;
     private LinkedList<Document> tbr;
@@ -25,18 +24,11 @@ public abstract class Abonne extends User {
     }
     public Abonne(String username , String password,String nom, String prenom, String cin) {
         super(username,password,nom, prenom, cin);
-        code_abonne=genererCode();
         favoris= new LinkedList<Document>();
         tbr= new LinkedList<Document>();
     }
 
-    public String getCode() {
-        return code_abonne;
-    }
 
-    public String getCode_abonne() {
-        return code_abonne;
-    }
 
     public Date getDate_abonnement() {
         return date_abonnement;

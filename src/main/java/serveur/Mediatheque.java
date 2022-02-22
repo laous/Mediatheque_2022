@@ -142,6 +142,8 @@ public class Mediatheque {
                         auteurDocument,nbPagesDocument,nbTomesDocument;
                 //Emprunt Variables
                 String code_abonne;
+                // DAO
+                Abonne ab; Kindle kd; Document dc; Emprunt ep; LinkedList<Object> liste;boolean test;
                 boolean response;
                 switch (received) {
                     case "1" :
@@ -150,13 +152,15 @@ public class Mediatheque {
                                 "\nVeuillez choisir une option\n"+
                                         "1- Ajouter Kindle\n"+
                                         "2- Supprimer Kindle\n"+
-                                        "3- Quitter"
+                                        "3- Aficher les Kindles\n"+
+                                        "4- Aficher Kindles par code\n"+
+                                        "5- Quitter"
                         );
                         choice = sc.nextLine();
                         switch (choice){
 
                             case "1":
-                                print("Ajout d'un Kindle</>");
+                                print("Ajout d'un Kindle....");
                                 print("Entrez le code de la kindle");
                                  code_kindle = sc.nextLine();
                                 print("Entrez le code mac");
@@ -166,7 +170,7 @@ public class Mediatheque {
 
                                 break;
                             case "2":
-                                print("Suppression d'un Kindle</>");
+                                print("Suppression d'un Kindle ...");
                                 print("Entrez le code de la kindle");
                                  code_kindle = sc.nextLine();
                                  response = kindleDAO.supprimerKindle(code_kindle);
@@ -174,6 +178,17 @@ public class Mediatheque {
 
                                 break;
                             case "3":
+                                print("Affichages des kindles ....");
+                                response =kindleDAO.getAllKindles().size()>0;
+                                print(response ? kindleDAO.getAllKindles().toString() : "Aucun kindle trouve");
+                                break;
+                            case "4":
+                                print("Entrez le code de la kindle");
+                                code_kindle= sc.nextLine();
+                                response=kindleDAO.getKindleByCode(code_kindle)!=null;
+                                print(response ? kindleDAO.getKindleByCode(code_kindle).toString() : "Kindle non trouve");
+                                break;
+                            case "5":
                                 break;
                             default:
                                 print("Invalide Option");
@@ -313,11 +328,13 @@ public class Mediatheque {
                             case "3":
                                 print("Entrez le cin");
                                 cinAbonne = sc.nextLine();
-                                print(adherentDAO.getAbonneByCIN(cinAbonne).toString());
+                                response = adherentDAO.getAbonneByCIN(cinAbonne) !=null;
+                                print(response ? adherentDAO.getAbonneByCIN(cinAbonne).toString() : "Adherent non trouve");
                                 break;
                             case "4":
                                 print("Affichage de tous les abonnes");
-                                print(adherentDAO.getAllAbonnes().toString());
+                                response = adherentDAO.getAllAbonnes().size()>0;
+                                print(response ? adherentDAO.getAllAbonnes().toString() : "Aucun adherent trouve");
                                 break;
                             case "5":
                                 break;
@@ -333,7 +350,9 @@ public class Mediatheque {
                                         "1- Ajouter un emprunt\n"+
                                         "2- Supprimer un emprunt\n"+
                                         "3- Afficher les emprunts\n"+
-                                        "4- Quitter"
+                                        "4- Afficher emprunt par cin de l'abonne \n"+
+                                        "5- Afficher emprunt par code de la kindle \n"+
+                                        "6- Quitter"
                         );
                         choice = sc.nextLine();
                         switch (choice){
@@ -357,9 +376,33 @@ public class Mediatheque {
                                 break;
                             case "3":
                                 print("Affichage des emprunts");
-                                print(empruntDAO.getAllEmprunts().toString());
+                                response=empruntDAO.getAllEmprunts().size()>0;
+                                print(response ? empruntDAO.getAllEmprunts().toString() : "Aucun emprunt trouve");
                                 break;
                             case "4":
+                                print("Entrez le cin de l'abonne");
+                                cinAbonne= sc.nextLine();
+                                response=adherentDAO.getAbonneByCIN(cinAbonne)!=null;
+                                if(response){
+                                    response=empruntDAO.getEmpruntByAbonne(adherentDAO.getAbonneByCIN(cinAbonne))!=null;
+                                    print(response?empruntDAO.getEmpruntByAbonne(adherentDAO.getAbonneByCIN(cinAbonne)).toString():"Aucun Emprunt trouve");
+                                    break;
+                                }
+                                print("Adherent non touve");
+                                break;
+                            case "5":
+                                print("Entrez le code de la kindle");
+                                code_kindle= sc.nextLine();
+                                response=kindleDAO.getKindleByCode(code_kindle)!=null;
+                                if(response){
+                                    response=empruntDAO.getEmpruntByKindle(kindleDAO.getKindleByCode(code_kindle))!=null;
+                                    print(response?empruntDAO.getEmpruntByKindle(kindleDAO.getKindleByCode(code_kindle)).toString():"Aucun Emprunt trouve");
+                                    break;
+                                }
+                                print("Kindle non touve");
+                                break;
+
+                            case "6":
                                 break;
                             default:
                                 print("Invalide Option");
