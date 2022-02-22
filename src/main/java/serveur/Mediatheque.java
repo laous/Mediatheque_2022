@@ -6,7 +6,7 @@ import dao.DocumentUtile;
 import dao.EmpruntUtile;
 import dao.KindleUtile;
 import java.io.IOException;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -80,10 +80,18 @@ public class Mediatheque {
     public static void print(String str){
         System.out.println(str);
     }
+    public static boolean auth(String username , String password) throws SQLException{
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mediatheque","root","");
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery("select * from admin where username like '"+username+"' and password like '"+password+"'");
+        while(rs.next()){
+            return true;
+
+        }
+        return false;
+    }
 
     public static void main(String args[]) throws IOException, SQLException {
-        String username="oussama";
-        String password="123";
         String received;
 
         
@@ -93,6 +101,13 @@ public class Mediatheque {
         String user = sc.nextLine();
         System.out.println("Entrez votre password:");
         String pw = sc.nextLine();
+
+        if(auth(user,pw)){
+            print("Connection reussie!");
+        }else{
+            print("Connection Echoue :(");
+            System.exit(0);
+        }
 
 //        if(user != username || pw != password){
 //            System.exit(0);
@@ -143,7 +158,7 @@ public class Mediatheque {
                 //Emprunt Variables
                 String code_abonne;
                 // DAO
-                Abonne ab; Kindle kd; Document dc; Emprunt ep; LinkedList<Object> liste;boolean test;
+                Abonne ab; Kindle kd; Document dc; Emprunt ep;
                 boolean response;
                 switch (received) {
                     case "1" :
