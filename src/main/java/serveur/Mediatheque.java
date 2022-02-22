@@ -94,7 +94,6 @@ public class Mediatheque {
     public static void main(String args[]) throws IOException, SQLException {
         String received;
 
-        
         //Authentification  ==> BD
         Scanner sc=new Scanner(System.in);
         System.out.println("Entrez votre username:");
