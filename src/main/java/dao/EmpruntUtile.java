@@ -22,12 +22,12 @@ public class EmpruntUtile {
 
     public  EmpruntUtile() throws SQLException {
 
-        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mediatheque ","root","");
+        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mediatheque","root","");
 
     }
 
     public boolean ajouterEmprunt(Emprunt ep) throws SQLException {
-        String query = "INSERT INTO adherent (code_abonne,code_kindle) VALUES (?,?)";
+        String query = "INSERT INTO emprunt (code_abonne,code_kindle) VALUES (?,?)";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setString(1, ep.getCode_abonne());
         ps.setString(2, ep.getCode_kindle());
