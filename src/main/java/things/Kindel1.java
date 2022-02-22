@@ -57,7 +57,7 @@ public class Kindel1 {
          **/
 
 
-        String reponse = authentication(entree, sortie, sc);
+        authentication(entree, sortie, sc);
 //        sendKindleInfos(entree, sortie);
 
         int choix = 0;
@@ -78,7 +78,7 @@ public class Kindel1 {
             try {
                 choix = sc.nextInt();
                 sc.nextLine();
-            }catch (InputMismatchException e){
+            } catch (InputMismatchException e) {
                 e.printStackTrace();
             }
 
@@ -94,9 +94,9 @@ public class Kindel1 {
         }
     }
 
-    public static String authentication(BufferedReader entree, OutputStreamWriter sortie, Scanner sc) throws IOException {
+    public static void authentication(BufferedReader entree, OutputStreamWriter sortie, Scanner sc) throws IOException {
 
-        System.out.print("Bienvenue\n Entrer votre username : ");
+        System.out.print("Bienvenue\nEntrer votre username : ");
         String username = sc.next();
         System.out.print("Entrer password : ");
         String password = sc.next();
@@ -104,7 +104,19 @@ public class Kindel1 {
         sortie.write(username + "\n");
         sortie.write(password + "\n");
         sortie.flush();  // Forcer l'envoi
-        return null;
+        String response = entree.readLine();
+
+        while (Objects.equals(response, "unauthorized")) {
+            System.out.print("Données invalide\nEntrer votre username : ");
+            username = sc.next();
+            System.out.print("Entrer password : ");
+            password = sc.next();
+
+            sortie.write(username + "\n");
+            sortie.write(password + "\n");
+            sortie.flush();  // Forcer l'envoi
+            response = entree.readLine();
+        }
     }
 
     public static void sendKindleInfos(BufferedReader entree, OutputStreamWriter sortie) {
