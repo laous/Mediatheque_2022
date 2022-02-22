@@ -43,9 +43,12 @@ public class AdherentUtile {
         String query = "SELECT * FROM adherent WHERE cni like '" + cin +"'";
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery(query);
-        if (rs.getString("type").equals("professeur")) {  // Type professeur
-            return new Professeur(rs.getString("username"), rs.getString("password"), rs.getString("nom"), rs.getString("prenom"), rs.getString("cin"), rs.getString("cne"));
+        while (rs.next()){
+            if (rs.getString("type").equals("professeur")) {  // Type professeur
+                return new Professeur(rs.getString("username"), rs.getString("password"), rs.getString("nom"), rs.getString("prenom"), rs.getString("cin"), rs.getString("cne"));
+            }
         }
+
         return null;
     }
 
@@ -63,6 +66,22 @@ public class AdherentUtile {
         }
 
         return liste;
+    }
+
+    public Abonne getAbonneByCIN(String cin) throws SQLException{
+        String query = "SELECT * FROM adherent WHERE cin like '" + cin +"'";
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+        while (rs.next()){
+            if (rs.getString("type").equals("professeur")) {  // Type professeur
+                return new Professeur(rs.getString("username"), rs.getString("password"), rs.getString("nom"), rs.getString("prenom"), rs.getString("cin"), rs.getString("cnss"));
+            }else  if (rs.getString("type").equals("etudiant")){
+                return new Etudiant(rs.getString("username"), rs.getString("password"), rs.getString("nom"), rs.getString("prenom"), rs.getString("cin"), rs.getString("cne"));
+            }
+        }
+
+        return null;
+
     }
 
 
