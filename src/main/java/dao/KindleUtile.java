@@ -44,13 +44,11 @@ public class KindleUtile {
     }
     
     public Kindle getKindleByCode(String code) throws SQLException {
-
-        String table="kindle";
         Kindle k= null;
 
 
         Statement stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery("select * from kindle where code like '"+code+"' ");
+        ResultSet rs = stmt.executeQuery("select * from kindle where code_kindle like '"+code+"' ");
 
 
         while (rs.next()) {
@@ -66,7 +64,7 @@ public class KindleUtile {
         ResultSet rs = stmt.executeQuery("select * from kindle");
 
         while(rs.next()){
-            kindles.add(new Kindle(rs.getString("code") ,rs.getString("mac")));
+            kindles.add(new Kindle(rs.getString("code_kindle") ,rs.getString("mac")));
         }
 
 
@@ -85,7 +83,7 @@ public class KindleUtile {
    
     public boolean supprimerKindle(Kindle k) throws SQLException {
         Statement stmt = con.createStatement();
-        String query="DELETE FROM kindle where code_kindle like "+k.getCode_kindle();
+        String query="DELETE FROM kindle where code_kindle like '"+k.getCode_kindle()+"'";
 
         int nbUpdated = stmt.executeUpdate(query);
         return nbUpdated>0;
