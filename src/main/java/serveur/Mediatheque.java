@@ -28,18 +28,54 @@ public class Mediatheque {
     
     // a remplacer par les utiles 
      static DocumentUtile documentDAO;
-     static AdherentUtile adherentDAO;
-     static KindleUtile kindleDAO;
-     static EmpruntUtile empruntDAO;
-    
-    
-    public Mediatheque() throws SQLException{
-        
-          documentDAO= new DocumentUtile() ;
-          adherentDAO= new AdherentUtile();
-          kindleDAO= new KindleUtile();
-          empruntDAO= new EmpruntUtile();
+
+    static {
+        try {
+            documentDAO = new DocumentUtile();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+
+    ;
+     static AdherentUtile adherentDAO;
+
+    static {
+        try {
+            adherentDAO = new AdherentUtile();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static KindleUtile kindleDAO;
+
+    static {
+        try {
+            kindleDAO = new KindleUtile();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static EmpruntUtile empruntDAO;
+
+    static {
+        try {
+            empruntDAO = new EmpruntUtile();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+//    public Mediatheque() throws SQLException{
+//
+//          documentDAO= new DocumentUtile() ;
+//          adherentDAO= new AdherentUtile();
+//          kindleDAO= new KindleUtile();
+//          empruntDAO= new EmpruntUtile();
+//    }
 
     public static void print(String str){
         System.out.println(str);
@@ -126,7 +162,7 @@ public class Mediatheque {
                                 print("Entrez le code mac");
                                 kindle_mac = sc.nextLine();
                                  response = kindleDAO.ajouterKindle(new Kindle(code_kindle, kindle_mac));
-                                print(response?"Ajoute" : "Non Ajoute");
+                                print(response?"Kindle Ajoute" : "Kindle Non Ajoute");
 
                                 break;
                             case "2":
@@ -134,7 +170,7 @@ public class Mediatheque {
                                 print("Entrez le code de la kindle");
                                  code_kindle = sc.nextLine();
                                  response = kindleDAO.supprimerKindle(kindleDAO.getKindleByCode(code_kindle));
-                                print(response?"Supprime" : "Non Supprime");
+                                print(response?"Kindle Supprime" : "Kindle Non Supprime");
 
                                 break;
                             case "3":

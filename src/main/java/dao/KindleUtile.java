@@ -71,19 +71,17 @@ public class KindleUtile {
          return kindles;
     }
     
-    public boolean ajouterKindle(Kindle k) throws SQLException,NullPointerException {
-        String query = "INSERT INTO kindle (code_kindle, mac) VALUES (?,?)";
-        PreparedStatement ps = con.prepareStatement(query);
-        ps.setString(1, k.getCode_kindle());
-        ps.setString(2, k.getMac());
-        int rs = ps.executeUpdate(query);
+    public boolean ajouterKindle(Kindle k) throws SQLException {
+        String query = "INSERT INTO kindle (code_kindle, mac) VALUES ('"+k.getCode_kindle()+"','"+k.getMac()+"')";
+        Statement stmt = con.createStatement();
+        int rs = stmt.executeUpdate(query);
         return rs > 0;
+
     }
    
     public boolean supprimerKindle(Kindle k) throws SQLException {
         Statement stmt = con.createStatement();
         String query="DELETE FROM kindle where code_kindle like '"+k.getCode_kindle()+"'";
-
         int nbUpdated = stmt.executeUpdate(query);
         return nbUpdated>0;
     }
