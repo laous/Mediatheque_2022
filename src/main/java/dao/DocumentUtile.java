@@ -30,7 +30,7 @@ public class DocumentUtile <T extends Document> {
     
     public  DocumentUtile () throws SQLException{
         
-        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mediatheque ","root","");
+        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mediatheque","root","");
      
     }
 
@@ -165,7 +165,7 @@ public class DocumentUtile <T extends Document> {
               "('livre','"+ d.getTitre()+"','"+d.getIsbn()+"','"+d.getEdition()+"','"+d.getEditeur()+"','"+d.getAuteur()+"','"+((Livre) d).getNbPages()+"')";
     }
     else  if (d instanceof Roman){
-        query="INSERT INTO document (`type`,`titre`, `isbn`, `edition`,`editeur` , `auteur`) VALUES" +
+        query="INSERT INTO document (`type`,`titre`, `isbn`, `edition`,`editeur` , `auteur` , `nbTomes`) VALUES" +
                 "('roman','"+ d.getTitre()+"','"+d.getIsbn()+"','"+d.getEdition()+"','"+d.getEditeur()+"','"+d.getAuteur()+"','"+((Roman) d).getNbTomes()+"')";
     }
     
@@ -177,7 +177,7 @@ public class DocumentUtile <T extends Document> {
    
     public boolean supprimerDocument(T d) throws SQLException {
         Statement stmt = con.createStatement();
-        String doc="", query="";
+        String query="";
 
         if (d instanceof Livre){
              query="DELETE FROM document where isbn like '"+d.getIsbn()+"' and type like 'livre'";
