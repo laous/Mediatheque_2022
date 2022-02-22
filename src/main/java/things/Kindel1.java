@@ -58,7 +58,7 @@ public class Kindel1 {
 
 
         authentication(entree, sortie, sc);
-//        sendKindleInfos(entree, sortie);
+        sendKindleInfos(entree, sortie, k);
 
         int choix = 0;
 
@@ -88,7 +88,7 @@ public class Kindel1 {
                 case 3 -> searchEditeur(entree, sortie, sc);
                 case 4 -> searchEdition(entree, sortie, sc);
                 case 5 -> searchAuteur(entree, sortie, sc);
-                case 6 -> System.out.println("Byee! ");
+                case 6 -> quit(sortie);
                 default -> System.out.println("Choix invalide. Ressayer!!");
             }
         }
@@ -119,12 +119,14 @@ public class Kindel1 {
         }
     }
 
-    public static void sendKindleInfos(BufferedReader entree, OutputStreamWriter sortie) {
+    public static void sendKindleInfos(BufferedReader entree, OutputStreamWriter sortie, Kindle k) throws IOException {
         /**
          *  TODO: Send kindle infos to ServerKindles
          *  Infos Kindle : code_kindle and mac
          *  Receive response from server
          */
+        sortie.write(k.getCode_kindle() + "\n");
+        sortie.flush();
     }
 
     public static void allDocs(BufferedReader entree, OutputStreamWriter sortie) throws IOException {
@@ -180,6 +182,12 @@ public class Kindel1 {
 
         printListOfString(response);
 
+    }
+
+    public static void quit(OutputStreamWriter sortie) throws IOException {
+        System.out.println("Bye!!");
+        sortie.write("quit\n");
+        sortie.flush();
     }
 
     private static List<String> readAllLines(BufferedReader br) throws IOException {

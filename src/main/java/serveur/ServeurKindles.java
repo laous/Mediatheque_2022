@@ -5,15 +5,9 @@
  */
 package serveur;
 
-import dao.AdherentUtile;
-import dao.AuthenticationUtile;
-import dao.DocumentUtile;
-import model.Document;
-import model.Kindle;
-import model.Livre;
-import model.Roman;
+import dao.*;
+import model.*;
 
-import javax.print.Doc;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -52,6 +46,9 @@ public class ServeurKindles extends Thread {
         final DocumentUtile docDAO = new DocumentUtile();
         final AdherentUtile adDAO = new AdherentUtile();
         final AuthenticationUtile authDAO = new AuthenticationUtile();
+        final KindleUtile kindDAO = new KindleUtile();
+        final EmpruntUtile empDAO = new EmpruntUtile();
+
 
         public SocketThread(Socket soc) throws SQLException {
             this.soc = soc;
@@ -79,11 +76,12 @@ public class ServeurKindles extends Thread {
                  * une fois que l'adherent est deconnecté alors return
                  **/
                 boolean repeat = true;
-                String type = authentication(entree, sortie); // authentication
-//                Kindle k = getKindleInfos(entree,sortie);
-//                boolean assoc = associate(k,type);
+                Abonne user = authentication(entree, sortie); // authentication
+
                 while (repeat) {
-                    if (type != null) {
+                    if (user != null) {
+                        Kindle k = getKindleInfos(entree, sortie);
+                        boolean assoc = associate(k, user);
                         String test = entree.readLine();
                         switch (test) {
                             case "all" -> getAllDocs(sortie);
@@ -92,17 +90,19 @@ public class ServeurKindles extends Thread {
                             case "edition" -> getDocumentsByEdition(entree, sortie);
                             case "auteur" -> getDocumentsByAuteur(entree, sortie);
                             case "quit" -> {
-                                quit(entree, sortie);
-                                repeat = false;
+                                 repeat = false;
+                                 empDAO.supprimerEmprunt(empDAO.getEmprunt(user,k));
+                                 soc.close();
+
                             }
                         }
                     } else {
-                        type = authentication(entree, sortie);
+                        user = authentication(entree, sortie);
                     }
                 }
 
             } catch (IOException ex) {
-                Logger.getLogger(ServeurKindles.class.getName()).log(Level.SEVERE, null, ex);
+//                Logger.getLogger(ServeurKindles.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
@@ -116,30 +116,33 @@ public class ServeurKindles extends Thread {
             }
         }
 
-        public String authentication(BufferedReader entree, OutputStreamWriter sortie) throws IOException, SQLException {
+        public Abonne authentication(BufferedReader entree, OutputStreamWriter sortie) throws IOException, SQLException {
             String username = entree.readLine();
             String password = entree.readLine();
-            String auth = authDAO.authentication(username, password);
+            Abonne auth = authDAO.authentication(username, password);
             if (auth == null) sortie.write("unauthorized\n");
-            else sortie.write(auth + "\n");
+            else {
+                sortie.write("succeded" + "\n");
+            }
             sortie.flush();
             return auth;
         }
 
-        public Kindle getKindleInfos(BufferedReader entree, OutputStreamWriter sortie) {
+        public Kindle getKindleInfos(BufferedReader entree, OutputStreamWriter sortie) throws IOException, SQLException {
             /**
              * TODO: Get kindle infos from Kindle client through streams
              * Infos : code_kinle and mac
              * Create Kindle object then return it
              * Kindle.setEmprunter(true)
              */
-            return null;
+            String code_kindle = entree.readLine();
+            return kindDAO.getKindleByCode(code_kindle);
         }
 
-        public boolean associate(Kindle k, String type) {
+        public boolean associate(Kindle k, Abonne u) throws SQLException {
             // TODO: Associate Kindle to abonne through Emprunt Object
             // Return true if added false if not
-            return true;
+            return empDAO.emprunter(k, u);
         }
 
         public void getAllDocs(OutputStreamWriter sortie) throws IOException, SQLException {
@@ -236,9 +239,6 @@ public class ServeurKindles extends Thread {
             }
             sortie.write("Documents with auteur: " + auteur + "\n" + response + "\n");
             sortie.flush();
-        }
-
-        public void quit(BufferedReader entree, OutputStreamWriter sortie) {
         }
 
     }
