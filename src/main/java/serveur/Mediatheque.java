@@ -117,7 +117,7 @@ public class Mediatheque {
 
                 //Menu Admin
                 print(
-                        "\n\nVeuillez choisir une option\n"+
+                        "\nVeuillez choisir une option\n"+
                                 "1- Gestion des Kindles\n"+
                                 "2- Gestion des Documents\n"+
                                 "3- Gestion des Adherents\n"+
@@ -147,7 +147,7 @@ public class Mediatheque {
                     case "1" :
                         print("Gestion des Kindles");
                         print(
-                                "\n\nVeuillez choisir une option\n"+
+                                "\nVeuillez choisir une option\n"+
                                         "1- Ajouter Kindle\n"+
                                         "2- Supprimer Kindle\n"+
                                         "3- Quitter"
@@ -169,7 +169,7 @@ public class Mediatheque {
                                 print("Suppression d'un Kindle</>");
                                 print("Entrez le code de la kindle");
                                  code_kindle = sc.nextLine();
-                                 response = kindleDAO.supprimerKindle(kindleDAO.getKindleByCode(code_kindle));
+                                 response = kindleDAO.supprimerKindle(code_kindle);
                                 print(response?"Kindle Supprime" : "Kindle Non Supprime");
 
                                 break;
@@ -184,7 +184,7 @@ public class Mediatheque {
                     case "2" :
                         print("Gestion des Documents");
                         print(
-                                "\n\nVeuillez choisir une option\n"+
+                                "\nVeuillez choisir une option\n"+
                                         "1- Ajouter un livre\n"+
                                         "2- Ajouter un roman\n"+
                                         "3- Supprimer un document\n"+
@@ -192,7 +192,6 @@ public class Mediatheque {
                         );
                         choice = sc.nextLine();
                         switch (choice){
-
                             case "1":
                                 print("Ajout d'un livre</>");
                                 print("Entrez le titre");
@@ -244,7 +243,7 @@ public class Mediatheque {
                     case "3" :
                        print("Gestion des Adherents");
                         print(
-                                "\n\nVeuillez choisir une option\n"+
+                                "\nVeuillez choisir une option\n"+
                                         "1- Ajouter un adherent\n"+
                                         "2- Supprimer un adherent\n"+
                                         "3- Quitter"
@@ -319,10 +318,11 @@ public class Mediatheque {
                     case "4":
                         print("Gestion des Emprunts");
                         print(
-                                "\n\nVeuillez choisir une option\n"+
+                                "\nVeuillez choisir une option\n"+
                                         "1- Ajouter un emprunt\n"+
                                         "2- Supprimer un emprunt\n"+
-                                        "3- Quitter"
+                                        "3- Afficher les emprunts\n"+
+                                        "4- Quitter"
                         );
                         choice = sc.nextLine();
                         switch (choice){
@@ -345,6 +345,10 @@ public class Mediatheque {
                                 print(response?"Emprunt Supprime" : "Emprunt Non Supprime");
                                 break;
                             case "3":
+                                print("Affichage des emprunts");
+                                print(empruntDAO.getAllEmprunts().toString());
+                                break;
+                            case "4":
                                 break;
                             default:
                                 print("Invalide Option");
