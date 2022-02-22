@@ -97,8 +97,6 @@ public class ServeurKindles extends Thread {
                             }
                         }
                     } else {
-                        sortie.write("Cannot validate credentials\n");
-                        sortie.flush();
                         type = authentication(entree, sortie);
                     }
                 }
@@ -121,8 +119,11 @@ public class ServeurKindles extends Thread {
         public String authentication(BufferedReader entree, OutputStreamWriter sortie) throws IOException, SQLException {
             String username = entree.readLine();
             String password = entree.readLine();
-//           return authDAO.authentication(username,password);
-            return "Jonas";
+            String auth = authDAO.authentication(username, password);
+            if (auth == null) sortie.write("unauthorized\n");
+            else sortie.write(auth + "\n");
+            sortie.flush();
+            return auth;
         }
 
         public Kindle getKindleInfos(BufferedReader entree, OutputStreamWriter sortie) {

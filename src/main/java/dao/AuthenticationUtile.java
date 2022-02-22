@@ -14,12 +14,10 @@ public class AuthenticationUtile {
     }
 
     public String authentication(String username, String password ) throws SQLException {
-        String query = "SELECT * FROM adherent WHERE username=? and password=?";
+        String query = "SELECT * FROM adherent WHERE username = '"+ username+"' and password='"+password+"'";
 
-        PreparedStatement ps = con.prepareStatement(query);
-        ps.setString(1, username);
-        ps.setString(1, password);
-        ResultSet rs = ps.executeQuery(query);
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
 
         return  rs.next() ? rs.getString("type") : null;
     }
