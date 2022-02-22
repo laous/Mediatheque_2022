@@ -40,7 +40,7 @@ public class AdherentUtile {
      * @return professeur with cin match
      */
     public Professeur getProfesseurByCin(String cin) throws SQLException {
-        String query = "SELECT * FROM adherent WHERE cni like '" + cin +"'";
+        String query = "SELECT * FROM adherent WHERE cin like '" + cin +"'";
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery(query);
         while (rs.next()){
@@ -60,7 +60,7 @@ public class AdherentUtile {
         while(rs.next()){
             if (rs.getString("type").equals("etudiant")) {  // Type etudiant
                 liste.add(new Etudiant(rs.getString("username"), rs.getString("password"), rs.getString("nom"), rs.getString("prenom"), rs.getString("cin"), rs.getString("cne")));
-            }else{
+            }else if (rs.getString("type").equals("professeur")){
                 liste.add(new Professeur(rs.getString("username"), rs.getString("password"), rs.getString("nom"), rs.getString("prenom"), rs.getString("cin"), rs.getString("cnss")));
             }
         }
@@ -79,7 +79,7 @@ public class AdherentUtile {
                 return new Etudiant(rs.getString("username"), rs.getString("password"), rs.getString("nom"), rs.getString("prenom"), rs.getString("cin"), rs.getString("cne"));
             }
         }
-
+        System.out.println("Adherent Non trouve");
         return null;
 
     }
@@ -106,7 +106,7 @@ public class AdherentUtile {
      * @return true if deleted, false if not
      */
     public boolean SupprimerProfesseur(String cin) throws SQLException {
-        String query = "DELETE FROM Adherent WHERE cni like '"+cin+"'";
+        String query = "DELETE FROM Adherent WHERE cin like '"+cin+"'";
         Statement stmt = con.createStatement();
         int rs = stmt.executeUpdate(query);
         return rs > 0;
@@ -142,7 +142,7 @@ public class AdherentUtile {
             System.out.println("Etudiant existe");
             return false;
         }
-        String query = "INSERT INTO adherent (username,password,nom,prenom,cin,cne,type) VALUES" +
+        String query = "INSERT INTO adherent (username,password,nom,prenom,cin,cnss,type) VALUES" +
                 "('"+professeur.getUsername()+"','"+professeur.getPasswrod()+"','"+professeur.getNom()+"','"+professeur.getPrenom()+"','"+professeur.getCin()+
                 "','"+professeur.getCin() +"','professeur')";
         Statement stmt = con.createStatement();

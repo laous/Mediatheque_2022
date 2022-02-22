@@ -246,7 +246,9 @@ public class Mediatheque {
                                 "\nVeuillez choisir une option\n"+
                                         "1- Ajouter un adherent\n"+
                                         "2- Supprimer un adherent\n"+
-                                        "3- Quitter"
+                                        "3- Afficher un adherent par cin\n"+
+                                        "4- Afficher tous les adherents\n"+
+                                        "5- Quitter"
                         );
                         choice = sc.nextLine();
                         switch (choice){
@@ -309,6 +311,15 @@ public class Mediatheque {
 
                                 break;
                             case "3":
+                                print("Entrez le cin");
+                                cinAbonne = sc.nextLine();
+                                print(adherentDAO.getAbonneByCIN(cinAbonne).toString());
+                                break;
+                            case "4":
+                                print("Affichage de tous les abonnes");
+                                print(adherentDAO.getAllAbonnes().toString());
+                                break;
+                            case "5":
                                 break;
                             default:
                                 print("Invalide Option");
