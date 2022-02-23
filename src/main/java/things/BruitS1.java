@@ -24,7 +24,7 @@ public class BruitS1 {
         OutputStreamWriter sortie = new OutputStreamWriter (streamOut) ;
         
         //lire une ligne du fichier
-         BufferedReader fs = new BufferedReader(new FileReader("D:\\Top Secret\\WebDev\\Java Workspace\\mediatheque-final\\src\\main\\java\\things\\bruit1.txt"));
+         BufferedReader fs = new BufferedReader(new FileReader("D:\\MIOLA\\JAVA\\Mediatheque_2022\\src\\main\\java\\things\\bruit1.txt"));
          String data= null;
          while((data = fs.readLine()) != null){
              System.out.println(data);
