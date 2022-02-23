@@ -116,6 +116,8 @@ public class Mediatheque {
         //Demarage en background du serveur de communication avec les Kindles ==> Sockets+Threds
         ServeurKindles sk= new ServeurKindles();
         sk.start();
+        ServeurBruit sb= new ServeurBruit();
+        sb.start();
         //Affichage du menu CRUD ==> BD
 
 

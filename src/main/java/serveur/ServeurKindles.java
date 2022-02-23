@@ -93,7 +93,6 @@ public class ServeurKindles extends Thread {
                                  repeat = false;
                                  empDAO.supprimerEmprunt(empDAO.getEmprunt(user,k));
                                  soc.close();
-
                             }
                         }
                     } else {

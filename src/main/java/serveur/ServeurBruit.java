@@ -61,17 +61,25 @@ public class ServeurBruit extends Thread {
         InputStream streamIn=null;
         
         try {
-            streamIn  = soc.getInputStream ();
-            BufferedReader entree = new BufferedReader (new InputStreamReader (streamIn));
-            
-            Thread.sleep(10000);
-            String data=entree.readLine();
-            //Traitement à realiser
-            
-            
-            
+            while (true){
+
+                streamIn  = soc.getInputStream ();
+                BufferedReader entree = new BufferedReader (new InputStreamReader (streamIn));
+                Thread.sleep(3000);
+                String data=entree.readLine();
+                if(data != null){
+                float bruit = Float.parseFloat(data);
+                //Traitement à realiser
+                if(bruit > 6000){
+                    System.out.println("Beaucoup de bruit dans la salle!!!! Appel a l'assistant.");
+                }
+                }else {
+                    break;
+                }
+            }
+
         } catch (IOException ex) {
-            Logger.getLogger(ServeurBruit.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(ServeurBruit.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
             Logger.getLogger(ServeurBruit.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
