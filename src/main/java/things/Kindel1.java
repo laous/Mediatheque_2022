@@ -7,12 +7,7 @@ package things;
 
 import model.Kindle;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.*;
 
@@ -36,13 +31,6 @@ public class Kindel1 {
         InputStream streamIn = soc.getInputStream();
         BufferedReader entree = new BufferedReader(new InputStreamReader(streamIn));
 
-//        sortie.write("message envoye au serveur par le client A \n") ;
-//        sortie.flush(); // pour forcer l'envoi de la ligne
-
-        //enchainement a definir selon le protocole en se servant de 
-        //String message = entree.readLine();
-        //sortie.write(message) ;
-
         /**Protocole
          * envoyer information d'authentification
          * reception decision authentification
@@ -56,42 +44,17 @@ public class Kindel1 {
          * chosir un docuemnt à visualiser ou retourner au menu principal
          **/
 
-
+        // Envoyer infos d'authentification
         authentication(entree, sortie, sc);
+
+        // Envoyer infos kindle
         sendKindleInfos(entree, sortie, k);
 
-        int choix = 0;
+        // Affichage du menu de choix
+        displayMenu(entree,sortie,sc);
 
-        while (choix != 6) {
-            System.out.println("----------Menu------------");
-            System.out.println("1. Liste des documents");
-            System.out.println("2. Chercher un document par titre");
-            System.out.println("3. Chercher un document par editeur");
-            System.out.println("4. Chercher un document par edition");
-            System.out.println("5. Chercher un document par auteur");
-            System.out.println("6. Quitter");
-            System.out.println("--------------------------");
 
-            System.out.print("Choix: ");
 
-            // TODO: handle Error if not int value provided
-            try {
-                choix = sc.nextInt();
-                sc.nextLine();
-            } catch (InputMismatchException e) {
-                e.printStackTrace();
-            }
-
-            switch (choix) {
-                case 1 -> allDocs(entree, sortie);
-                case 2 -> searchTitle(entree, sortie, sc);
-                case 3 -> searchEditeur(entree, sortie, sc);
-                case 4 -> searchEdition(entree, sortie, sc);
-                case 5 -> searchAuteur(entree, sortie, sc);
-                case 6 -> quit(sortie);
-                default -> System.out.println("Choix invalide. Ressayer!!");
-            }
-        }
     }
 
     public static void authentication(BufferedReader entree, OutputStreamWriter sortie, Scanner sc) throws IOException {
@@ -127,6 +90,41 @@ public class Kindel1 {
          */
         sortie.write(k.getCode_kindle() + "\n");
         sortie.flush();
+    }
+
+    public static void displayMenu(BufferedReader entree, OutputStreamWriter sortie,Scanner sc) throws IOException {
+        int choix = 0;
+
+        while (choix != 6) {
+            System.out.println("----------Menu------------");
+            System.out.println("1. Liste des documents");
+            System.out.println("2. Chercher un document par titre");
+            System.out.println("3. Chercher un document par editeur");
+            System.out.println("4. Chercher un document par edition");
+            System.out.println("5. Chercher un document par auteur");
+            System.out.println("6. Quitter");
+            System.out.println("--------------------------");
+
+            System.out.print("Choix: ");
+
+            // TODO: handle Error if not int value provided
+            try {
+                choix = sc.nextInt();
+                sc.nextLine();
+            } catch (InputMismatchException e) {
+                e.printStackTrace();
+            }
+
+            switch (choix) {
+                case 1 -> allDocs(entree, sortie);
+                case 2 -> searchTitle(entree, sortie, sc);
+                case 3 -> searchEditeur(entree, sortie, sc);
+                case 4 -> searchEdition(entree, sortie, sc);
+                case 5 -> searchAuteur(entree, sortie, sc);
+                case 6 -> quit(sortie);
+                default -> System.out.println("Choix invalide. Ressayer!!");
+            }
+        }
     }
 
     public static void allDocs(BufferedReader entree, OutputStreamWriter sortie) throws IOException {
