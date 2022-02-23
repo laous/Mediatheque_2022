@@ -107,13 +107,15 @@ public class Kindel1 {
 
             System.out.print("Choix: ");
 
+
+
             // TODO: handle Error if not int value provided
-            try {
+//            try {
                 choix = sc.nextInt();
                 sc.nextLine();
-            } catch (InputMismatchException e) {
-                e.printStackTrace();
-            }
+//            } catch (InputMismatchException e) {
+//                e.printStackTrace();
+//            }
 
             switch (choix) {
                 case 1 -> allDocs(entree, sortie);
