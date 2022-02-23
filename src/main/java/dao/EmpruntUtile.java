@@ -30,6 +30,9 @@ public class EmpruntUtile {
     }
 
     public boolean ajouterEmprunt(Emprunt ep) throws SQLException {
+        if(getEmprunt(abonneDAO.getAbonneByCIN(ep.getCode_abonne()), kindleADO.getKindleByCode(ep.getCode_kindle()))!=null){
+            return true;
+        }
         if(getEmpruntByKindle(kindleADO.getKindleByCode(ep.getCode_kindle()))!=null ){
             System.out.println("Kindle deja emprunte");
             return false;
@@ -38,6 +41,7 @@ public class EmpruntUtile {
             System.out.println("Abonne a deja un kindle");
             return false;
         }
+
         String query = "INSERT INTO emprunt (code_abonne,code_kindle) VALUES ('"+ep.getCode_abonne()+"','"+ep.getCode_kindle()+"')";
         Statement stmt = con.createStatement();
         String query2="UPDATE kindle SET emprunte='Y', etat='A' WHERE code_kindle LIKE '"+ep.getCode_kindle()+"'";

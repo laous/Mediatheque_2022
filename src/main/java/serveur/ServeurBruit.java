@@ -70,7 +70,7 @@ public class ServeurBruit extends Thread {
                 if(data != null){
                 float bruit = Float.parseFloat(data);
                 //Traitement à realiser
-                if(bruit > 6000){
+                if(bruit > 3200){
                     System.out.println("Beaucoup de bruit dans la salle!!!! Appel a l'assistant.");
                 }
                 }else {

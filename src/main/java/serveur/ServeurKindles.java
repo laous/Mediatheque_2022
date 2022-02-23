@@ -77,11 +77,15 @@ public class ServeurKindles extends Thread {
                  **/
                 boolean repeat = true;
                 Abonne user = authentication(entree, sortie); // authentication
+                Kindle k = getKindleInfos(entree, sortie);
+                boolean assoc = associate(k, user);
+                if(assoc == false){
+                    sortie.write("L'utilisateur a deja un kindle!");
+                    soc.close();
+                }
 
                 while (repeat) {
-                    if (user != null) {
-                        Kindle k = getKindleInfos(entree, sortie);
-                        boolean assoc = associate(k, user);
+
                         String test = entree.readLine();
                         switch (test) {
                             case "all" -> getAllDocs(sortie);
@@ -90,14 +94,11 @@ public class ServeurKindles extends Thread {
                             case "edition" -> getDocumentsByEdition(entree, sortie);
                             case "auteur" -> getDocumentsByAuteur(entree, sortie);
                             case "quit" -> {
-                                 repeat = false;
-                                 empDAO.supprimerEmprunt(empDAO.getEmprunt(user,k));
-                                 soc.close();
+                                repeat = false;
+                                empDAO.supprimerEmprunt(empDAO.getEmprunt(user, k));
+                                soc.close();
                             }
                         }
-                    } else {
-                        user = authentication(entree, sortie);
-                    }
                 }
 
             } catch (IOException ex) {
@@ -165,6 +166,11 @@ public class ServeurKindles extends Thread {
         public void getDocumentByTitre(BufferedReader entree, OutputStreamWriter sortie) throws IOException, SQLException {
             String titre = entree.readLine();
             Document doc = docDAO.getDocumentByTitre(titre);
+            if(doc == null){
+                sortie.write("No document with this title found!\n");
+                sortie.flush();
+                return;
+            }
             if (doc instanceof Livre) {
                 Livre l = (Livre) doc;
                 sortie.write(l.toString() + "\n");
@@ -172,9 +178,6 @@ public class ServeurKindles extends Thread {
             } else if (doc instanceof Roman) {
                 Roman r = (Roman) doc;
                 sortie.write(r.toString() + "\n");
-                sortie.flush();
-            } else {
-                sortie.write("No document with this title found!\n");
                 sortie.flush();
             }
 
@@ -190,7 +193,7 @@ public class ServeurKindles extends Thread {
                     Livre l = (Livre) d;
                     response.append(l.toString());
                     response.append("\n");
-                } else {
+                } else if (d instanceof Roman) {
                     Roman r = (Roman) d;
                     response.append(r.toString());
                     response.append("\n");

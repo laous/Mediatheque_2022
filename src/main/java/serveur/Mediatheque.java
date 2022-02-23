@@ -13,17 +13,6 @@ import java.util.Scanner;
 
 import model.*;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
-/**
- *
- * @author rachad
- */
 public class Mediatheque {
     
     // a remplacer par les utiles 
@@ -69,13 +58,6 @@ public class Mediatheque {
     }
 
 
-//    public Mediatheque() throws SQLException{
-//
-//          documentDAO= new DocumentUtile() ;
-//          adherentDAO= new AdherentUtile();
-//          kindleDAO= new KindleUtile();
-//          empruntDAO= new EmpruntUtile();
-//    }
 
     public static void print(String str){
         System.out.println(str);
@@ -121,13 +103,6 @@ public class Mediatheque {
         //Affichage du menu CRUD ==> BD
 
 
-        //***1- Gestion des Kindles
-        //***2- Gestion des Documents
-        //***3- Gestion des Adherents
-        //***4- Gestion des Emprunts
-        //***5- m les kindles temporairement  ==>sk.sleep(xx)
-        //***6- Reprendre le serveur des kindles  ==> sk.interrupt() // a ne pas afficher si les serveur  est deja demarre
-        //***7- Se Deconnecter
 
         while (true){
 
