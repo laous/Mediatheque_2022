@@ -40,7 +40,7 @@ public class EmpruntUtile {
         }
         String query = "INSERT INTO emprunt (code_abonne,code_kindle) VALUES ('"+ep.getCode_abonne()+"','"+ep.getCode_kindle()+"')";
         Statement stmt = con.createStatement();
-        String query2="UPDATE kindle SET emprunte='Y' WHERE code_kindle LIKE '"+ep.getCode_kindle()+"'";
+        String query2="UPDATE kindle SET emprunte='Y', etat='A' WHERE code_kindle LIKE '"+ep.getCode_kindle()+"'";
         stmt.executeUpdate(query2);
         int nbUpdated = stmt.executeUpdate(query);
         return nbUpdated>0;
@@ -49,8 +49,15 @@ public class EmpruntUtile {
     public boolean supprimerEmprunt(Emprunt ep) throws SQLException {
         Statement stmt = con.createStatement();
         String query="DELETE FROM emprunt WHERE code_kindle LIKE '"+ep.getCode_kindle()+"' AND code_abonne LIKE '"+ep.getCode_abonne()+"'";
-        String query2="UPDATE kindle SET emprunte='N' WHERE code_kindle LIKE '"+ep.getCode_kindle()+"'";
+        String query2="UPDATE kindle SET emprunte='N', etat='E' WHERE code_kindle LIKE '"+ep.getCode_kindle()+"'";
         stmt.executeUpdate(query2);
+        int nbUpdated = stmt.executeUpdate(query);
+        return nbUpdated>0;
+    }
+
+    public boolean eteindreKindle(Kindle kd) throws SQLException{
+        Statement stmt = con.createStatement();
+        String query = "UPDATE kindle SET etat='E' WHERE code_kindle LIKE '"+kd.getCode_kindle()+"'";
         int nbUpdated = stmt.executeUpdate(query);
         return nbUpdated>0;
     }
